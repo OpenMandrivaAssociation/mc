@@ -4,7 +4,7 @@
 Summary:	A user-friendly file manager and visual shell
 Name:		mc
 Version:	4.6.1
-Release:	%mkrel 6
+Release:	%mkrel 7
 License:	GPL
 Group:		File tools
 URL:		http://www.ibiblio.org/mc/
@@ -26,6 +26,8 @@ Patch6:		mc-4.6.0-ptsname.patch
 Patch7:		mc-4.6.1-utf8.patch
 Patch8:		mc-4.6.1-bourne-compliancy.patch
 Patch9:		mc-4.6.1-decent_defaults.diff
+# from upstream
+Patch10:	mc-bash32.diff
 # PLD patches P100 - P113
 Patch100:	mc-spec-syntax.patch
 Patch101:	mc-urar.patch
@@ -80,6 +82,7 @@ files, and poke into RPMs for specific files.  :-)
 %patch7 -p1 -b .utf8
 %patch8 -p1 -b .bourne_compliancy
 %patch9 -p0 -b .decent_defaults
+%patch10 -p0 -b .bash32
 
 # PLD patches
 %patch100 -p1
@@ -176,5 +179,3 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/mc/syntax/
 #%{_datadir}/mc/term/
 %{_sysconfdir}/profile.d/*
-
-
