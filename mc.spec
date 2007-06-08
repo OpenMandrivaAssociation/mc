@@ -4,7 +4,7 @@
 Summary:	A user-friendly file manager and visual shell
 Name:		mc
 Version:	4.6.1
-Release:	%mkrel 7
+Release:	%mkrel 8
 License:	GPL
 Group:		File tools
 URL:		http://www.ibiblio.org/mc/
@@ -48,13 +48,18 @@ Patch110:	mc-nolibs.patch
 Patch111:	mc-ftpcrash.patch
 Patch112:	mc-symcrash.patch
 Patch113:	mc-userhost.patch
-Patch114:	mc-4.6.1.lzma.patch
+# Patches 200 on must be applied after PLD patches; if you have
+# a new patch that can be applied before the PLD patches, don't put
+# it here
+Patch200:	mc-4.6.1.lzma.patch
+Patch201:	mc-4.6.1-xdg.patch
 Requires:	groff
 Requires:	slang > 1.4.9-5mdk
 BuildRequires:	libext2fs-devel
 BuildRequires:	libgpm-devel >= 0.18
 BuildRequires:	pam-devel
-BuildRequires:	slang-devel > 1.4.9-5mdk
+# Doesn't build with slang2
+BuildRequires:	slang-devel < 2.0
 BuildRequires:	glib2-devel
 BuildRequires:  autoconf2.5
 %if %without_x
@@ -67,7 +72,7 @@ BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 Midnight Commander is a visual shell much like a file manager, only with way
 more features.  It is text mode, but also includes mouse support if you are
 running GPM.  Its coolest feature is the ability to ftp, view tar, zip
-files, and poke into RPMs for specific files.  :-)
+files, and poke into RPMs for specific files.
 
 %prep
 
@@ -100,7 +105,9 @@ cp -f vfs/extfs/{rpm,srpm}
 %patch111 -p1
 %patch112 -p1
 %patch113 -p1
-%patch114 -p1 -b .lzma
+ 
+%patch200 -p1 -b .lzma
+%patch201 -p1 -b .xdg
 
 sed -i 's:|hxx|:|hh|hpp|hxx|:' syntax/Syntax
 
