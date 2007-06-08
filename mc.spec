@@ -59,7 +59,8 @@ BuildRequires:	libext2fs-devel
 BuildRequires:	libgpm-devel >= 0.18
 BuildRequires:	pam-devel
 # Doesn't build with slang2
-BuildRequires:	slang-devel < 2.0
+BuildConflicts:	lib64slang2-devel libslang2-devel
+BuildRequires:	slang-devel
 BuildRequires:	glib2-devel
 BuildRequires:  autoconf2.5
 %if %without_x
