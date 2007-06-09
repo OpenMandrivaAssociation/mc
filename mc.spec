@@ -4,7 +4,7 @@
 Summary:	A user-friendly file manager and visual shell
 Name:		mc
 Version:	4.6.1
-Release:	%mkrel 8
+Release:	%mkrel 9
 License:	GPL
 Group:		File tools
 URL:		http://www.ibiblio.org/mc/
@@ -48,18 +48,18 @@ Patch110:	mc-nolibs.patch
 Patch111:	mc-ftpcrash.patch
 Patch112:	mc-symcrash.patch
 Patch113:	mc-userhost.patch
+# This is a kinda mash-up of the SUSE and PLD slang2 patches. It
+# works, don't knock it. -AdamW, 2007/06
+Patch114:	mc-slang2.patch
 # Patches 200 on must be applied after PLD patches; if you have
 # a new patch that can be applied before the PLD patches, don't put
 # it here
 Patch200:	mc-4.6.1.lzma.patch
 Patch201:	mc-4.6.1-xdg.patch
 Requires:	groff
-Requires:	slang > 1.4.9-5mdk
 BuildRequires:	libext2fs-devel
 BuildRequires:	libgpm-devel >= 0.18
 BuildRequires:	pam-devel
-# Doesn't build with slang2
-BuildConflicts:	lib64slang2-devel libslang2-devel
 BuildRequires:	slang-devel
 BuildRequires:	glib2-devel
 BuildRequires:  autoconf2.5
@@ -106,6 +106,7 @@ cp -f vfs/extfs/{rpm,srpm}
 %patch111 -p1
 %patch112 -p1
 %patch113 -p1
+%patch114 -p0
  
 %patch200 -p1 -b .lzma
 %patch201 -p1 -b .xdg
