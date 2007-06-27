@@ -128,6 +128,7 @@ popd
 pushd lib
 # rename zh to zh_TW, which is what it really is (I think)
 mv mc.hint.zh mc.hint.zh_TW
+perl -pi -e 's,mc.hint.zh,mc.hint.zh_TW,g' Makefile.am
 # hardcode the list as we need to leave italian out and it just gets ugly doing it 'smartly'...
 for i in cs es hu nl pl ru sr uk zh_TW; \
 # this is ugly, but assume same encoding as .po file for each language.
