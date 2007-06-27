@@ -28,6 +28,7 @@ Patch8:		mc-4.6.1-bourne-compliancy.patch
 Patch9:		mc-4.6.1-decent_defaults.diff
 # from upstream
 Patch10:	mc-bash32.diff
+Patch11:	mc-4.6.1-zh_tw-control.patch
 # PLD patches P100 - P113
 Patch100:	mc-spec-syntax.patch
 Patch101:	mc-urar.patch
@@ -89,6 +90,7 @@ files, and poke into RPMs for specific files.
 %patch8 -p1 -b .bourne_compliancy
 %patch9 -p0 -b .decent_defaults
 %patch10 -p0 -b .bash32
+%patch11 -p1 -b .zh_tw
 
 # PLD patches
 %patch100 -p1
@@ -120,7 +122,7 @@ pushd lib
 for i in `file * | grep 8859 | cut -d: -f1`; do iconv --from-code=ISO-8859-1 --to-code=UTF-8 $i > $i.new; mv -f $i.new $i; done
 popd
 pushd po
-for i in `file *.po | grep 8859 | cut -d: -f1`; do iconv --from-code=ISO-8859-1 --to-code=UTF-8 $i > $i.new; mv -f $i.new $i; done
+for i in `file *.po | grep 8859 | cut -d: -f1`; do iconv --from-code=ISO-8859-1 --to-code=UTF-8 $i > $i.new; mv -f $i.new $i; perl -pi -e 's,charset=.*$,charset=UTF-8\\n",g' $i; done
 popd
 
 %{__aclocal} -I m4
