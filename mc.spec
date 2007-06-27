@@ -4,7 +4,7 @@
 Summary:	A user-friendly file manager and visual shell
 Name:		mc
 Version:	4.6.1
-Release:	%mkrel 11
+Release:	%mkrel 12
 License:	GPL
 Group:		File tools
 URL:		http://www.ibiblio.org/mc/
@@ -28,7 +28,6 @@ Patch8:		mc-4.6.1-bourne-compliancy.patch
 Patch9:		mc-4.6.1-decent_defaults.diff
 # from upstream
 Patch10:	mc-bash32.diff
-Patch11:	mc-4.6.1-zh_tw-control.patch
 # PLD patches P100 - P113
 Patch100:	mc-spec-syntax.patch
 Patch101:	mc-urar.patch
@@ -90,7 +89,6 @@ files, and poke into RPMs for specific files.
 %patch8 -p1 -b .bourne_compliancy
 %patch9 -p0 -b .decent_defaults
 %patch10 -p0 -b .bash32
-%patch11 -p1 -b .zh_tw
 
 # PLD patches
 %patch100 -p1
@@ -118,11 +116,36 @@ sed -i 's:|hxx|:|hh|hpp|hxx|:' syntax/Syntax
 %build
 
 # Convert translated files to UTF-8: bug #31578 - AdamW 2007/06
-pushd lib
-for i in `file * | grep 8859 | cut -d: -f1`; do iconv --from-code=ISO-8859-1 --to-code=UTF-8 $i > $i.new; mv -f $i.new $i; done
+
+pushd doc
+# italian is already unicode, leave it out.
+for i in es hu pl ru sr; do pushd $i; \
+# this is ugly, but assume same encoding as .po file for each language.
+iconv --from-code=`grep charset= ../../po/$i.po | cut -c36- | head -c-4 | tr "[:lower:]" "[:upper:]"` --to-code=UTF-8 mc.1.in > mc.1.in.new; \
+mv -f mc.1.in.new mc.1.in; popd; done
 popd
+
+pushd lib
+# rename zh to zh_TW, which is what it really is (I think)
+mv mc.hint.zh mc.hint.zh_TW
+# hardcode the list as we need to leave italian out and it just gets ugly doing it 'smartly'...
+for i in cs es hu nl pl ru sr uk zh_TW; \
+# this is ugly, but assume same encoding as .po file for each language.
+do iconv --from-code=`grep charset= ../po/$i.po | cut -c36- | head -c-4 | tr "[:lower:]" "[:upper:]"` --to-code=UTF-8 mc.hint.$i > mc.hint.$i.new; \
+mv -f mc.hint.$i.new mc.hint.$i; done
+popd
+
 pushd po
-for i in `file *.po | grep 8859 | cut -d: -f1`; do iconv --from-code=ISO-8859-1 --to-code=UTF-8 $i > $i.new; mv -f $i.new $i; perl -pi -e 's,charset=.*$,charset=UTF-8\\n",g' $i; done
+# remove the original .mo files
+rm -f *.gmo
+# find stuff that's not Unicode already
+for i in `file *.po | grep -v Unicode | cut -d: -f1`; \
+# convert it: the grep, cut, head, tr grabs the source encoding from the .po file header, there's no other way to find it
+do iconv --from-code=`grep charset= $i | cut -c36- | head -c-4 | tr "[:lower:]" "[:upper:]"` --to-code=UTF-8 $i > $i.new; \
+# change the header to say UTF-8
+mv -f $i.new $i; perl -pi -e 's,charset=.*$,charset=UTF-8\\n",g' $i; done
+# regenerate the .mo files
+for i in `ls *.po | cut -d. -f1`; do /usr/bin/msgfmt -c --statistics -o $i.gmo $i.po; done
 popd
 
 %{__aclocal} -I m4
