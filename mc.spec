@@ -4,7 +4,7 @@
 Summary:	A user-friendly file manager and visual shell
 Name:		mc
 Version:	4.6.1
-Release:	%mkrel 10
+Release:	%mkrel 11
 License:	GPL
 Group:		File tools
 URL:		http://www.ibiblio.org/mc/
@@ -114,6 +114,15 @@ cp -f vfs/extfs/{rpm,srpm}
 sed -i 's:|hxx|:|hh|hpp|hxx|:' syntax/Syntax
 
 %build
+
+# Convert translated files to UTF-8: bug #31578 - AdamW 2007/06
+pushd lib
+for i in `file * | grep 8859 | cut -d: -f1`; do iconv --from-code=ISO-8859-1 --to-code=UTF-8 $i > $i.new; mv -f $i.new $i; done
+popd
+pushd po
+for i in `file *.po | grep 8859 | cut -d: -f1`; do iconv --from-code=ISO-8859-1 --to-code=UTF-8 $i > $i.new; mv -f $i.new $i; done
+popd
+
 %{__aclocal} -I m4
 %{__autoconf}
 %{__automake}
