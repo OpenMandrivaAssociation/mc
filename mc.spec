@@ -4,7 +4,7 @@
 Summary:	A user-friendly file manager and visual shell
 Name:		mc
 Version:	4.6.1
-Release:	%mkrel 12
+Release:	%mkrel 13
 License:	GPL
 Group:		File tools
 URL:		http://www.ibiblio.org/mc/
@@ -122,7 +122,8 @@ pushd doc
 for i in es hu pl ru sr; do pushd $i; \
 # this is ugly, but assume same encoding as .po file for each language.
 iconv --from-code=`grep charset= ../../po/$i.po | cut -c36- | head -c-4 | tr "[:lower:]" "[:upper:]"` --to-code=UTF-8 mc.1.in > mc.1.in.new; \
-mv -f mc.1.in.new mc.1.in; popd; done
+iconv --from-code=`grep charset= ../../po/$i.po | cut -c36- | head -c-4 | tr "[:lower:]" "[:upper:]"` --to-code=UTF-8 xnc.hlp > xnc.hlp.new; \
+mv -f mc.1.in.new mc.1.in; mv -f xnc.hlp.new xnc.hlp; popd; done
 popd
 
 pushd lib
