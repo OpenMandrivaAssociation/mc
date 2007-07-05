@@ -4,7 +4,7 @@
 Summary:	A user-friendly file manager and visual shell
 Name:		mc
 Version:	4.6.1
-Release:	%mkrel 13
+Release:	%mkrel 14
 License:	GPL
 Group:		File tools
 URL:		http://www.ibiblio.org/mc/
@@ -12,6 +12,8 @@ Source0:	ftp://ftp.gnome.org:/pub/GNOME/stable/sources/mc/%{name}-%{version}.tar
 # Changelogs for Advanced Midnight Commander patches
 Source1:	http://www1.mplayerhq.hu/~arpi/amc/amc-1.txt
 Source2:	http://www1.mplayerhq.hu/~arpi/amc/amc-2.txt
+# From upstream CVS: adds a 7Zip VFS handler -AdamW 2007/07
+Source3:	u7z
 #(dam's)
 Patch23:	mc-4.6.0-toolbar-po-mdk.path
 # (tv) add runlevel to initscript
@@ -28,7 +30,11 @@ Patch8:		mc-4.6.1-bourne-compliancy.patch
 Patch9:		mc-4.6.1-decent_defaults.diff
 # from upstream
 Patch10:	mc-bash32.diff
-# PLD patches P100 - P113
+# from https://savannah.gnu.org/bugs/?16303: improves the 7zip handler
+# slightly modified not to test for '7z', as we don't package it, only
+# '7za' - AdamW 2007/07
+Patch11:	u7z.patch
+# PLD patches P100 - P114
 Patch100:	mc-spec-syntax.patch
 Patch101:	mc-urar.patch
 Patch102:	mc-srpm.patch
@@ -56,13 +62,15 @@ Patch114:	mc-slang2.patch
 # it here
 Patch200:	mc-4.6.1.lzma.patch
 Patch201:	mc-4.6.1-xdg.patch
+# from upstream CVS: changes to accommodate the 7zip VFS handler
+Patch202:	mc-4.6.1-7zip.patch
 Requires:	groff
 BuildRequires:	libext2fs-devel
 BuildRequires:	libgpm-devel >= 0.18
 BuildRequires:	pam-devel
 BuildRequires:	slang-devel
 BuildRequires:	glib2-devel
-BuildRequires:  autoconf2.5
+BuildRequires:  autoconf
 %if %without_x
 %else
 BuildRequires:	XFree86-devel
@@ -79,6 +87,9 @@ files, and poke into RPMs for specific files.
 
 %setup -q -n %{name}-%{version}
 
+# Add u7z VFS handler - AdamW 2007/07
+install -m755 %{SOURCE3} vfs/extfs/u7z
+
 %patch0 -p1 -b .xpdf
 %patch1 -p1 -b .rpm_obsolete_tags
 %patch23 -p1 -b .toolbarpo
@@ -89,6 +100,7 @@ files, and poke into RPMs for specific files.
 %patch8 -p1 -b .bourne_compliancy
 %patch9 -p0 -b .decent_defaults
 %patch10 -p0 -b .bash32
+%patch11 -p1 -b .u7z
 
 # PLD patches
 %patch100 -p1
@@ -110,6 +122,7 @@ cp -f vfs/extfs/{rpm,srpm}
  
 %patch200 -p1 -b .lzma
 %patch201 -p1 -b .xdg
+%patch202 -p1 -b .7zip
 
 sed -i 's:|hxx|:|hh|hpp|hxx|:' syntax/Syntax
 
@@ -190,6 +203,11 @@ perl -p -i -e 's/rm -f \"/rm -rf \"/g' lib/mc-wrapper.sh
 install lib/{mc.sh,mc.csh} $RPM_BUILD_ROOT%{_sysconfdir}/profile.d
 
 %{find_lang} %{name}
+
+# I don't know why install -m755 above doesn't work, but whatever.
+# - AdamW 2007/07
+
+chmod ugo+x $RPM_BUILD_ROOT%{_datadir}/mc/extfs/u7z
 
 %clean
 rm -rf $RPM_BUILD_ROOT
