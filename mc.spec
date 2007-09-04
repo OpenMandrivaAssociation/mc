@@ -4,7 +4,7 @@
 Summary:	A user-friendly file manager and visual shell
 Name:		mc
 Version:	4.6.1
-Release:	%mkrel 14
+Release:	%mkrel 15
 License:	GPL
 Group:		File tools
 URL:		http://www.ibiblio.org/mc/
