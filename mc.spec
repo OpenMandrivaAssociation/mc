@@ -35,7 +35,7 @@ Patch10:	mc-bash32.diff
 # '7za' - AdamW 2007/07
 Patch11:	u7z.patch
 # from https://savannah.gnu.org/bugs/?13953: fixes a bug that left temp
-# files lying around. see also MDV bug #15687 - AdamW 2007/09
+# files lying around. see also MDV bug #15687. rediffed - AdamW 2007/09
 Patch12:	mc-4.6.1-tempfiles.patch
 # PLD patches P100 - P114
 Patch100:	mc-spec-syntax.patch
