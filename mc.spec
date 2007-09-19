@@ -4,8 +4,8 @@
 Summary:	A user-friendly file manager and visual shell
 Name:		mc
 Version:	4.6.1
-Release:	%mkrel 15
-License:	GPL
+Release:	%mkrel 16
+License:	GPLv2+
 Group:		File tools
 URL:		http://www.ibiblio.org/mc/
 Source0:	ftp://ftp.gnome.org:/pub/GNOME/stable/sources/mc/%{name}-%{version}.tar.bz2
@@ -34,6 +34,9 @@ Patch10:	mc-bash32.diff
 # slightly modified not to test for '7z', as we don't package it, only
 # '7za' - AdamW 2007/07
 Patch11:	u7z.patch
+# from https://savannah.gnu.org/bugs/?13953: fixes a bug that left temp
+# files lying around. see also MDV bug #15687 - AdamW 2007/09
+Patch12:	mc-4.6.1-tempfiles.patch
 # PLD patches P100 - P114
 Patch100:	mc-spec-syntax.patch
 Patch101:	mc-urar.patch
@@ -101,6 +104,7 @@ install -m755 %{SOURCE3} vfs/extfs/u7z
 %patch9 -p0 -b .decent_defaults
 %patch10 -p0 -b .bash32
 %patch11 -p1 -b .u7z
+%patch12 -p1 -b .tempfiles
 
 # PLD patches
 %patch100 -p1
