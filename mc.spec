@@ -4,7 +4,7 @@
 Summary:	A user-friendly file manager and visual shell
 Name:		mc
 Version:	4.6.1
-Release:	%mkrel 16
+Release:	%mkrel 17
 License:	GPLv2+
 Group:		File tools
 URL:		http://www.ibiblio.org/mc/
@@ -37,6 +37,10 @@ Patch11:	u7z.patch
 # from https://savannah.gnu.org/bugs/?13953: fixes a bug that left temp
 # files lying around. see also MDV bug #15687. rediffed - AdamW 2007/09
 Patch12:	mc-4.6.1-tempfiles.patch
+# from http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=349390 and
+# https://savannah.gnu.org/bugs/?15524: fixes a bug which made ssh
+# file transfers larger than 2GB fail (MDV bug #34063)
+Patch13:	mc-4.6.1-2gb.patch
 # PLD patches P100 - P114
 Patch100:	mc-spec-syntax.patch
 Patch101:	mc-urar.patch
@@ -105,6 +109,7 @@ install -m755 %{SOURCE3} vfs/extfs/u7z
 %patch10 -p0 -b .bash32
 %patch11 -p1 -b .u7z
 %patch12 -p1 -b .tempfiles
+%patch13 -p1 -b .2gb
 
 # PLD patches
 %patch100 -p1
