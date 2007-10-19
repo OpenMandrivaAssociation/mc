@@ -1,76 +1,85 @@
 # avoid dependency on X11 libraries
 %define without_x       1
 
+%define	cvs	20071018
+%if %cvs
+%define release %mkrel 0.%cvs.1
+%else
+%define release %mkrel 1
+%endif
+
 Summary:	A user-friendly file manager and visual shell
 Name:		mc
-Version:	4.6.1
-Release:	%mkrel 17
+Version:	4.6.2
+Release:	%{release}
 License:	GPLv2+
 Group:		File tools
 URL:		http://www.ibiblio.org/mc/
+%if %cvs
+# cvs -z3 -d:pserver:anoncvs@cvs.savannah.gnu.org:/cvsroot/mc co mc
+Source0:	%{name}-%{cvs}.tar.lzma
+%else
 Source0:	ftp://ftp.gnome.org:/pub/GNOME/stable/sources/mc/%{name}-%{version}.tar.bz2
-# Changelogs for Advanced Midnight Commander patches
-Source1:	http://www1.mplayerhq.hu/~arpi/amc/amc-1.txt
-Source2:	http://www1.mplayerhq.hu/~arpi/amc/amc-2.txt
-# From upstream CVS: adds a 7Zip VFS handler -AdamW 2007/07
-Source3:	u7z
-#(dam's)
-Patch23:	mc-4.6.0-toolbar-po-mdk.path
-# (tv) add runlevel to initscript
-Patch31:	mc-4.6.0-init.patch
-# (fc) fix xpdf outputing garbage on stdout (bug #4094)
-Patch0:		mc-4.6.0-xpdf.patch
+%endif
+
+# ** Mandriva patches: 0 - 99 **
+
 # remove copyright tag, and s/serial/epoch tag in rpm vfs
-Patch1:		mc-4.6.1-rpm_obsolete_tags.patch
-# (mpol) 4.6.0-9mdk
-Patch6:		mc-4.6.0-ptsname.patch
-# (mpol) 4.6.0-9mdk utf8 patches from fedora/suse
-Patch7:		mc-4.6.1-utf8.patch
-Patch8:		mc-4.6.1-bourne-compliancy.patch
-Patch9:		mc-4.6.1-decent_defaults.diff
-# from upstream
-Patch10:	mc-bash32.diff
+Patch1:		mc-4.6.2-rpm_obsolete_tags.patch
+Patch2:		mc-4.6.0-toolbar-po-mdk.path
+# (tv) add runlevel to initscript
+Patch3:		mc-4.6.0-init.patch
+#Patch4:	mc-4.6.0-ptsname.patch
+Patch5:		mc-4.6.1-bourne-compliancy.patch
+Patch6:		mc-4.6.1-decent_defaults.diff
 # from https://savannah.gnu.org/bugs/?16303: improves the 7zip handler
-# slightly modified not to test for '7z', as we don't package it, only
-# '7za' - AdamW 2007/07
-Patch11:	u7z.patch
-# from https://savannah.gnu.org/bugs/?13953: fixes a bug that left temp
-# files lying around. see also MDV bug #15687. rediffed - AdamW 2007/09
-Patch12:	mc-4.6.1-tempfiles.patch
-# from http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=349390 and
-# https://savannah.gnu.org/bugs/?15524: fixes a bug which made ssh
-# file transfers larger than 2GB fail (MDV bug #34063)
-Patch13:	mc-4.6.1-2gb.patch
-# PLD patches P100 - P114
-Patch100:	mc-spec-syntax.patch
-Patch101:	mc-urar.patch
-Patch102:	mc-srpm.patch
-# Advanced Midnight Commander patches
-#changed from:	http://www1.mplayerhq.hu/~arpi/amc/amc-1.diff
-Patch103:	amc-1.diff
-#changed from:	http://www1.mplayerhq.hu/~arpi/amc/amc-2.diff
-Patch104:	amc-2.diff
-Patch105:	mc-mc.ext.patch
-Patch106:	mc-mo.patch
-# at now syntax highligthing for PLD-update-TODO and CVSROOT/users
-Patch107:	mc-pld-developerfriendly.patch
-# http://www.suse.de/~nadvornik/mc.html
-Patch108:	mc-64bit.patch
-Patch109:	mc-fish-upload.patch
-Patch110:	mc-nolibs.patch
-Patch111:	mc-ftpcrash.patch
-Patch112:	mc-symcrash.patch
-Patch113:	mc-userhost.patch
-# This is a kinda mash-up of the SUSE and PLD slang2 patches. It
-# works, don't knock it. -AdamW, 2007/06
-Patch114:	mc-slang2.patch
-# Patches 200 on must be applied after PLD patches; if you have
-# a new patch that can be applied before the PLD patches, don't put
-# it here
-Patch200:	mc-4.6.1.lzma.patch
-Patch201:	mc-4.6.1-xdg.patch
-# from upstream CVS: changes to accommodate the 7zip VFS handler
-Patch202:	mc-4.6.1-7zip.patch
+# slightly. Modified not to test for '7z', as we don't package it, 
+# only '7za' - AdamW 2007/07
+Patch7:		u7z.patch
+Patch8:		mc-4.6.1.lzma.patch
+Patch9:		mc-4.6.1-xdg.patch
+
+# ** Fedora patchset: 100 - 199 **
+
+# UTF-8 patches, rediffed by AdamW for 20071018 snapshot
+Patch100:	mc-utf8.patch
+Patch101:	mc-utf8-8bit-hex.patch
+# Hostname
+Patch102:	mc-userhost.patch
+Patch103:	mc-utf8-look-and-feel.patch
+# IPv6 support for FTPFS
+Patch104:	mc-ipv6.patch
+# refresh contents of terminal when resized during time expensive I/O
+# operations
+Patch105:	mc-refresh.patch
+Patch106:	mc-64bit.patch
+# correctly concatenate directory and file in concat_dir_and_file()
+Patch107:	mc-concat.patch
+# display free space correctly for multiple filesystems
+Patch108:	mc-showfree.patch
+# Update panel contents to avoid actions on deleted files
+Patch109:	mc-delcheck.patch
+# allow exit command even on non-local filesystems (#202440)
+Patch110:	mc-exit.patch
+Patch111:	mc-newlinedir.patch
+# attempt to fcntl() descriptors appropriately so that subshell
+#  doesn't leave them open while execve()ing commands
+Patch112:	mc-cloexec.patch
+# fix displaying of prompt in subshell
+Patch113:	mc-prompt.patch
+
+# ** PLD patchset: 200 - 299 **
+
+Patch200:	mc-spec-syntax.patch
+Patch201:	mc-urar.patch
+Patch202:	mc-srpm.patch
+Patch203:	mc-mc.ext.patch
+Patch204:	mc-localenames.patch
+# at now syntax highlighting for PLD-update-TODO and CVSROOT/users
+Patch205:	mc-pld-developerfriendly.patch
+Patch206:	mc-nolibs.patch
+Patch207:	mc-vhdl-syntax.patch
+
 Requires:	groff
 BuildRequires:	libext2fs-devel
 BuildRequires:	libgpm-devel >= 0.18
@@ -91,30 +100,25 @@ running GPM.  Its coolest feature is the ability to ftp, view tar, zip
 files, and poke into RPMs for specific files.
 
 %prep
-
+%if %cvs
+%setup -q -n %{name}
+%else
 %setup -q -n %{name}-%{version}
+%endif
 
-# Add u7z VFS handler - AdamW 2007/07
-install -m755 %{SOURCE3} vfs/extfs/u7z
-
-%patch0 -p1 -b .xpdf
 %patch1 -p1 -b .rpm_obsolete_tags
-%patch23 -p1 -b .toolbarpo
-%patch31 -p1 -b .initlevel
-# fixme: disabled P6
-#%%patch6 -p1 -b .ptsname
-%patch7 -p1 -b .utf8
-%patch8 -p1 -b .bourne_compliancy
-%patch9 -p0 -b .decent_defaults
-%patch10 -p0 -b .bash32
-%patch11 -p1 -b .u7z
-%patch12 -p1 -b .tempfiles
-%patch13 -p1 -b .2gb
+%patch2 -p1 -b .toolbarpo
+%patch3 -p1 -b .initlevel
+# fixme: disabled P4
+#%%patch4 -p1 -b .ptsname
+%patch5 -p1 -b .bourne_compliancy
+%patch6 -p0 -b .decent_defaults
+%patch7 -p1 -b .u7z
+%patch8 -p1 -b .lzma
+%patch9 -p1 -b .xdg
 
-# PLD patches
 %patch100 -p1
 %patch101 -p1
-cp -f vfs/extfs/{rpm,srpm}
 %patch102 -p1
 %patch103 -p1
 %patch104 -p1
@@ -127,13 +131,20 @@ cp -f vfs/extfs/{rpm,srpm}
 %patch111 -p1
 %patch112 -p1
 %patch113 -p1
-%patch114 -p0
- 
-%patch200 -p1 -b .lzma
-%patch201 -p1 -b .xdg
-%patch202 -p1 -b .7zip
+
+%patch200 -p1
+%patch201 -p1
+cp -f vfs/extfs/{rpm,srpm}
+%patch202 -p1
+%patch203 -p1
+%patch204 -p1
+%patch205 -p1
+%patch206 -p1
+%patch207 -p1
 
 sed -i 's:|hxx|:|hh|hpp|hxx|:' syntax/Syntax
+
+mv -f po/{no,nb}.po
 
 %build
 
@@ -172,17 +183,15 @@ mv -f $i.new $i; perl -pi -e 's,charset=.*$,charset=UTF-8\\n",g' $i; done
 for i in `ls *.po | cut -d. -f1`; do /usr/bin/msgfmt -c --statistics -o $i.gmo $i.po; done
 popd
 
+%if %cvs
+./autogen.sh
+%else
 %{__aclocal} -I m4
 %{__autoconf}
 %{__automake}
+%endif
 
 X11_WWW="www-browser" %serverbuild
-# libcom_err of e2fsprogs and krb5 conflict. Watch this hack. -- Geoff.
-# <hack>
-mkdir -p %{_lib}
-ln -sf /%{_lib}/libcom_err.so.2 %{_lib}/libcom_err.so
-export LDFLAGS="-L`pwd`/%{_lib}"
-# </hack>
 
 %configure2_5x \
     --with-debug \
@@ -200,26 +209,26 @@ export LDFLAGS="-L`pwd`/%{_lib}"
 make
 
 %install
-rm -rf $RPM_BUILD_ROOT
+rm -rf %{buildroot}
 
-install -d $RPM_BUILD_ROOT%{_sysconfdir}/{pam.d,profile.d,X11/wmconfig} $RPM_BUILD_ROOT%{_initrddir}
+install -d %{buildroot}%{_sysconfdir}/{pam.d,profile.d,X11/wmconfig} %{buildroot}%{_initrddir}
 
 #fix mc-wrapper.sh
 perl -p -i -e 's/rm -f \"/rm -rf \"/g' lib/mc-wrapper.sh
 
 %makeinstall
 
-install lib/{mc.sh,mc.csh} $RPM_BUILD_ROOT%{_sysconfdir}/profile.d
+install lib/{mc.sh,mc.csh} %{buildroot}%{_sysconfdir}/profile.d
 
 %{find_lang} %{name}
 
 # I don't know why install -m755 above doesn't work, but whatever.
 # - AdamW 2007/07
 
-chmod ugo+x $RPM_BUILD_ROOT%{_datadir}/mc/extfs/u7z
+chmod ugo+x %{buildroot}%{_datadir}/mc/extfs/u7z
 
 %clean
-rm -rf $RPM_BUILD_ROOT
+rm -rf %{buildroot}
 
 
 %files -f %{name}.lang
