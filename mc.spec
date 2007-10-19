@@ -222,11 +222,6 @@ install lib/{mc.sh,mc.csh} %{buildroot}%{_sysconfdir}/profile.d
 
 %{find_lang} %{name}
 
-# I don't know why install -m755 above doesn't work, but whatever.
-# - AdamW 2007/07
-
-chmod ugo+x %{buildroot}%{_datadir}/mc/extfs/u7z
-
 %clean
 rm -rf %{buildroot}
 
