@@ -91,6 +91,9 @@ BuildRequires:  autoconf
 %else
 BuildRequires:	XFree86-devel
 %endif
+%if %cvs
+BuildRequires:	gettext-devel
+%endif
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 %description
