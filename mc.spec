@@ -89,7 +89,7 @@ BuildRequires:	glib2-devel
 BuildRequires:  autoconf
 %if %without_x
 %else
-BuildRequires:	XFree86-devel
+BuildRequires:	X11-devel
 %endif
 %if %cvs
 BuildRequires:	gettext-devel
