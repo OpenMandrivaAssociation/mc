@@ -94,7 +94,6 @@ BuildRequires:	X11-devel
 %if %cvs
 BuildRequires:	gettext-devel
 %endif
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 %description
 Midnight Commander is a visual shell much like a file manager, only with way
