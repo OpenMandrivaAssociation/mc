@@ -5,7 +5,7 @@
 %if %cvs
 %define release %mkrel 0.%cvs.1
 %else
-%define release %mkrel 1
+%define release %mkrel 2
 %endif
 
 Summary:	A user-friendly file manager and visual shell
@@ -220,7 +220,8 @@ perl -p -i -e 's/rm -f \"/rm -rf \"/g' lib/mc-wrapper.sh
 
 %makeinstall
 
-install lib/{mc.sh,mc.csh} %{buildroot}%{_sysconfdir}/profile.d
+install -m 644 lib/mc.sh %{buildroot}%{_sysconfdir}/profile.d/20mc.sh
+install -m 644 lib/mc.csh %{buildroot}%{_sysconfdir}/profile.d/20mc.csh
 
 %{find_lang} %{name}
 
