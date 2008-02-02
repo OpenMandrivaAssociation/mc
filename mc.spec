@@ -80,6 +80,10 @@ Patch205:	mc-pld-developerfriendly.patch
 Patch206:	mc-nolibs.patch
 Patch207:	mc-vhdl-syntax.patch
 
+# From OpenSUSE: fix display of nlinks column in UTF-8 locales
+# (#34207, SUSE #194715) - AdamW 2008/01
+Patch300:	mc-utf8-nlink.patch
+
 Requires:	groff
 BuildRequires:	libext2fs-devel
 BuildRequires:	libgpm-devel >= 0.18
@@ -143,6 +147,8 @@ cp -f vfs/extfs/{rpm,srpm}
 %patch205 -p1
 %patch206 -p1
 %patch207 -p1
+
+%patch300 -p1 -b .nlink
 
 sed -i 's:|hxx|:|hh|hpp|hxx|:' syntax/Syntax
 
