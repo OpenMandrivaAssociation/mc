@@ -3,7 +3,7 @@
 
 %define	cvs	20071018
 %if %cvs
-%define release %mkrel 0.%cvs.2
+%define release %mkrel 0.%cvs.3
 %else
 %define release %mkrel 1
 %endif
