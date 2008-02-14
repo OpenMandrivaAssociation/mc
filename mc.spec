@@ -14,6 +14,7 @@ Version:	4.6.2
 Release:	%{release}
 License:	GPLv2+
 Group:		File tools
+BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 URL:		http://www.ibiblio.org/mc/
 %if %cvs
 # cvs -z3 -d:pserver:anoncvs@cvs.savannah.gnu.org:/cvsroot/mc co mc
