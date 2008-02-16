@@ -1,9 +1,9 @@
 # avoid dependency on X11 libraries
 %define without_x       1
 
-%define	cvs	20071018
+%define	cvs	20080216
 %if %cvs
-%define release %mkrel 0.%cvs.3
+%define release %mkrel 0.%cvs.1
 %else
 %define release %mkrel 1
 %endif
@@ -76,10 +76,8 @@ Patch201:	mc-urar.patch
 Patch202:	mc-srpm.patch
 Patch203:	mc-mc.ext.patch
 Patch204:	mc-localenames.patch
-# at now syntax highlighting for PLD-update-TODO and CVSROOT/users
-Patch205:	mc-pld-developerfriendly.patch
-Patch206:	mc-nolibs.patch
-Patch207:	mc-vhdl-syntax.patch
+Patch205:	mc-nolibs.patch
+Patch206:	mc-vhdl-syntax.patch
 
 # From OpenSUSE: fix display of nlinks column in UTF-8 locales
 # (#34207, SUSE #194715) - AdamW 2008/01
@@ -147,7 +145,6 @@ cp -f vfs/extfs/{rpm,srpm}
 %patch204 -p1
 %patch205 -p1
 %patch206 -p1
-%patch207 -p1
 
 %patch300 -p1 -b .nlink
 
