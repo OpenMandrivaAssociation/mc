@@ -3,9 +3,9 @@
 
 %define	cvs	20080216
 %if %cvs
-%define release %mkrel 0.%cvs.2
+%define release %mkrel 3.%cvs.2
 %else
-%define release %mkrel 1
+%define release %mkrel 2
 %endif
 
 Summary:	A user-friendly file manager and visual shell
