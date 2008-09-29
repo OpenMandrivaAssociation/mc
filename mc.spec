@@ -1,11 +1,18 @@
 # avoid dependency on X11 libraries
 %define without_x       1
 
+%define rel	3
 %define	cvs	20080216
+# cvs -z3 -d:pserver:anoncvs@cvs.savannah.gnu.org:/cvsroot/mc co mc
+
 %if %cvs
-%define release %mkrel 3.%cvs.2
+%define release		%mkrel 3.%{cvs}.%{rel}
+%define distname	%{name}-%{cvs}.tar.lzma
+%define dirname		%{name}
 %else
-%define release %mkrel 2
+%define release		%mkrel %{rel}
+%define distname	%{name}-%{version}.tar.bz2
+%define dirname		%{name}-%{version}
 %endif
 
 Summary:	A user-friendly file manager and visual shell
@@ -16,12 +23,7 @@ License:	GPLv2+
 Group:		File tools
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 URL:		http://www.ibiblio.org/mc/
-%if %cvs
-# cvs -z3 -d:pserver:anoncvs@cvs.savannah.gnu.org:/cvsroot/mc co mc
-Source0:	%{name}-%{cvs}.tar.lzma
-%else
-Source0:	ftp://ftp.gnome.org:/pub/GNOME/stable/sources/mc/%{name}-%{version}.tar.bz2
-%endif
+Source0:	ftp://ftp.gnome.org:/pub/GNOME/stable/sources/mc/%{distname}
 
 # ** Mandriva patches: 0 - 99 **
 
@@ -39,6 +41,7 @@ Patch6:		mc-4.6.1-decent_defaults.diff
 Patch7:		u7z.patch
 Patch8:		mc-4.6.1.lzma.patch
 Patch9:		mc-4.6.1-xdg.patch
+Patch10:	mc-4.6.2-shortcut.patch
 
 # ** Fedora patchset: 100 - 199 **
 
@@ -105,11 +108,7 @@ running GPM.  Its coolest feature is the ability to ftp, view tar, zip
 files, and poke into RPMs for specific files.
 
 %prep
-%if %cvs
-%setup -q -n %{name}
-%else
-%setup -q -n %{name}-%{version}
-%endif
+%setup -q -n %{dirname}
 
 %patch1 -p1 -b .rpm_obsolete_tags
 %patch2 -p1 -b .toolbarpo
@@ -121,6 +120,7 @@ files, and poke into RPMs for specific files.
 %patch7 -p1 -b .u7z
 %patch8 -p1 -b .lzma
 %patch9 -p1 -b .xdg
+%patch10 -p1 -b .shortcut
 
 %patch100 -p1
 %patch101 -p1
@@ -188,6 +188,9 @@ mv -f $i.new $i; perl -pi -e 's,charset=.*$,charset=UTF-8\\n",g' $i; done
 # regenerate the .mo files
 for i in `ls *.po | cut -d. -f1`; do /usr/bin/msgfmt -c --statistics -o $i.gmo $i.po; done
 popd
+
+# update the menu entry for directory hotlist to match change in shortcut.patch
+sed -i -e 's,C-\\\\,C-\\\\ or C-l,g' src/main.c po/*.po
 
 %if %cvs
 ./autogen.sh
