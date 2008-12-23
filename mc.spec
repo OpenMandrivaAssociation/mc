@@ -1,7 +1,7 @@
 # avoid dependency on X11 libraries
 %define without_x       1
 
-%define rel	3
+%define rel	4
 %define	cvs	20080216
 # cvs -z3 -d:pserver:anoncvs@cvs.savannah.gnu.org:/cvsroot/mc co mc
 
@@ -117,9 +117,9 @@ files, and poke into RPMs for specific files.
 #%%patch4 -p1 -b .ptsname
 %patch5 -p1 -b .bourne_compliancy
 %patch6 -p0 -b .decent_defaults
-%patch7 -p1 -b .u7z
+%patch7 -p0 -b .u7z
 %patch8 -p1 -b .lzma
-%patch9 -p1 -b .xdg
+%patch9 -p0 -b .xdg
 %patch10 -p1 -b .shortcut
 
 %patch100 -p1
@@ -138,11 +138,11 @@ files, and poke into RPMs for specific files.
 %patch113 -p1
 
 %patch200 -p1
-%patch201 -p1
+%patch201 -p0
 cp -f vfs/extfs/{rpm,srpm}
 %patch202 -p1
 %patch203 -p1
-%patch204 -p1
+%patch204 -p0
 %patch205 -p1
 %patch206 -p1
 
