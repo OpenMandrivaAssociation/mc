@@ -65,9 +65,6 @@ Patch109:	mc-delcheck.patch
 # allow exit command even on non-local filesystems (#202440)
 Patch110:	mc-exit.patch
 Patch111:	mc-newlinedir.patch
-# attempt to fcntl() descriptors appropriately so that subshell
-#  doesn't leave them open while execve()ing commands
-Patch112:	mc-cloexec.patch
 # fix displaying of prompt in subshell
 Patch113:	mc-prompt.patch
 
@@ -92,6 +89,7 @@ BuildRequires:	pam-devel
 BuildRequires:	slang-devel
 BuildRequires:	glib2-devel
 BuildRequires:  autoconf
+BuildRequires:	bison
 %if %without_x
 %else
 BuildRequires:	X11-devel
@@ -111,7 +109,7 @@ files, and poke into RPMs for specific files.
 %setup -q -n %{dirname}
 
 %patch1 -p1 -b .rpm_obsolete_tags
-%patch2 -p1 -b .toolbarpo
+#%patch2 -p1 -b .toolbarpo rediff?
 %patch3 -p1 -b .initlevel
 # fixme: disabled P4
 #%%patch4 -p1 -b .ptsname
@@ -119,22 +117,21 @@ files, and poke into RPMs for specific files.
 %patch6 -p0 -b .decent_defaults
 %patch7 -p0 -b .u7z
 %patch8 -p1 -b .lzma
-%patch9 -p0 -b .xdg
+#%patch9 -p0 -b .xdg rediff?
 %patch10 -p1 -b .shortcut
 
-%patch100 -p1
-%patch101 -p1
-%patch102 -p1
-%patch103 -p1
+#%patch100 -p1 rediff?
+#%patch101 -p1 rediff?
+#%patch102 -p1 rediff?
+#%patch103 -p1 rediff?
 %patch104 -p1
 %patch105 -p1
 %patch106 -p1
-%patch107 -p1
-%patch108 -p1
+#%patch107 -p1 rediff?
+#%patch108 -p1 rediff?
 %patch109 -p1
 %patch110 -p1
 %patch111 -p1
-%patch112 -p1
 %patch113 -p1
 
 %patch200 -p1
@@ -144,9 +141,9 @@ cp -f vfs/extfs/{rpm,srpm}
 %patch203 -p1
 %patch204 -p0
 %patch205 -p1
-%patch206 -p1
+#%patch206 -p1 rediff?
 
-%patch300 -p1 -b .nlink
+#%patch300 -p1 -b .nlink rediff?
 
 sed -i 's:|hxx|:|hh|hpp|hxx|:' syntax/Syntax
 
@@ -157,8 +154,8 @@ mv -f po/{no,nb}.po
 # Convert translated files to UTF-8: bug #31578 - AdamW 2007/06
 
 pushd doc
-# italian is already unicode, leave it out.
-for i in es hu pl ru sr; do pushd $i; \
+# italian and spanish are already unicode, leave it out.
+for i in hu pl ru sr; do pushd $i; \
 # this is ugly, but assume same encoding as .po file for each language.
 iconv --from-code=`grep charset= ../../po/$i.po | cut -c36- | head -c-4 | tr "[:lower:]" "[:upper:]"` --to-code=UTF-8 mc.1.in > mc.1.in.new; \
 iconv --from-code=`grep charset= ../../po/$i.po | cut -c36- | head -c-4 | tr "[:lower:]" "[:upper:]"` --to-code=UTF-8 xnc.hlp > xnc.hlp.new; \
@@ -169,8 +166,8 @@ pushd lib
 # rename zh to zh_TW, which is what it really is (I think)
 mv mc.hint.zh mc.hint.zh_TW
 perl -pi -e 's,mc.hint.zh,mc.hint.zh_TW,g' Makefile.am
-# hardcode the list as we need to leave italian out and it just gets ugly doing it 'smartly'...
-for i in cs es hu nl pl ru sr uk zh_TW; \
+# hardcode the list as we need to leave es, it out and it just gets ugly doing it 'smartly'...
+for i in cs hu nl pl ru sr uk zh_TW
 # this is ugly, but assume same encoding as .po file for each language.
 do iconv --from-code=`grep charset= ../po/$i.po | cut -c36- | head -c-4 | tr "[:lower:]" "[:upper:]"` --to-code=UTF-8 mc.hint.$i > mc.hint.$i.new; \
 mv -f mc.hint.$i.new mc.hint.$i; done
@@ -210,12 +207,12 @@ X11_WWW="www-browser" %serverbuild
     --enable-nls \
     --enable-charset \
     --enable-largefile \
+    --disable-rpath \
 %if %without_x
     --without-x
 %endif
 
-# don't use make macro, mc doesn't support parallel compilation
-make
+%make
 
 %install
 rm -rf %{buildroot}
