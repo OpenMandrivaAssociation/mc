@@ -1,8 +1,8 @@
 # avoid dependency on X11 libraries
 %define without_x       1
 
-%define rel	4
-%define	cvs	20080216
+%define rel	1
+%define	cvs	0
 # cvs -z3 -d:pserver:anoncvs@cvs.savannah.gnu.org:/cvsroot/mc co mc
 
 %if %cvs
@@ -21,9 +21,8 @@ Version:	4.6.2
 Release:	%{release}
 License:	GPLv2+
 Group:		File tools
-BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
-URL:		http://www.ibiblio.org/mc/
-Source0:	ftp://ftp.gnome.org:/pub/GNOME/stable/sources/mc/%{distname}
+URL:		http://www.midnight-commander.org/
+Source0:	http://www.midnight-commander.org/downloads/%{distname}
 
 # ** Mandriva patches: 0 - 99 **
 
@@ -100,6 +99,7 @@ BuildRequires:	X11-devel
 %if %cvs
 BuildRequires:	gettext-devel
 %endif
+BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 %description
 Midnight Commander is a visual shell much like a file manager, only with way
