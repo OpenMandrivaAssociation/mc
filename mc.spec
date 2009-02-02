@@ -1,7 +1,7 @@
 # avoid dependency on X11 libraries
 %define without_x       1
 
-%define rel	4
+%define rel	5
 %define	cvs	0
 # cvs -z3 -d:pserver:anoncvs@cvs.savannah.gnu.org:/cvsroot/mc co mc
 
@@ -45,7 +45,8 @@ Patch10:	mc-4.6.2-shortcut.patch
 # ** Fedora patchset: 100 - 199 **
 
 # UTF-8 patches, rediffed by AdamW for 20071018 snapshot
-Patch100:	mc-utf8.patch
+# (tpg) http://www.midnight-commander.org/downloads/mc-4.6.2-utf8.patch.gz
+Patch100:	mc-4.6.2-utf8.patch
 Patch101:	mc-utf8-8bit-hex.patch
 # Hostname
 Patch102:	mc-userhost.patch
@@ -120,7 +121,7 @@ files, and poke into RPMs for specific files.
 #%patch9 -p0 -b .xdg rediff?
 %patch10 -p1 -b .shortcut
 
-#%patch100 -p1 rediff?
+%patch100 -p1
 #%patch101 -p1 rediff?
 #%patch102 -p1 rediff?
 #%patch103 -p1 rediff?
@@ -131,7 +132,7 @@ files, and poke into RPMs for specific files.
 #%patch108 -p1 rediff?
 %patch109 -p1
 %patch110 -p1
-%patch111 -p1
+#%patch111 -p1
 %patch113 -p1
 
 %patch200 -p1
