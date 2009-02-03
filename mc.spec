@@ -76,7 +76,7 @@ Patch202:	mc-srpm.patch
 Patch203:	mc-mc.ext.patch
 Patch204:	mc-localenames.patch
 Patch205:	mc-nolibs.patch
-Patch206:	mc-vhdl-syntax.patch
+Patch206:	mc-4.6.2-vhdl-syntax.patch
 
 # From OpenSUSE: fix display of nlinks column in UTF-8 locales
 # (#34207, SUSE #194715) - AdamW 2008/01
@@ -140,7 +140,7 @@ cp -f vfs/extfs/{rpm,srpm}
 %patch203 -p1
 %patch204 -p0
 %patch205 -p1
-#%patch206 -p1 rediff?
+%patch206 -p1
 
 #%patch300 -p1 -b .nlink rediff?
 
