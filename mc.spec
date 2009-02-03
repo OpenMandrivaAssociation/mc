@@ -39,7 +39,7 @@ Patch6:		mc-4.6.1-decent_defaults.diff
 # only '7za' - AdamW 2007/07
 Patch7:		u7z.patch
 Patch8:		mc-4.6.1.lzma.patch
-Patch9:		mc-4.6.1-xdg.patch
+Patch9:		mc-4.6.2-xdg.patch
 Patch10:	mc-4.6.2-shortcut.patch
 
 # ** Fedora patchset: 100 - 199 **
@@ -118,7 +118,7 @@ files, and poke into RPMs for specific files.
 %patch6 -p0 -b .decent_defaults
 %patch7 -p0 -b .u7z
 %patch8 -p1 -b .lzma
-#%patch9 -p0 -b .xdg rediff?
+%patch9 -p1 -b .xdg
 %patch10 -p1 -b .shortcut
 
 %patch100 -p1
