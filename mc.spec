@@ -28,7 +28,6 @@ Source0:	http://www.midnight-commander.org/downloads/%{distname}
 
 # remove copyright tag, and s/serial/epoch tag in rpm vfs
 Patch1:		mc-4.6.2-rpm_obsolete_tags.patch
-Patch2:		mc-4.6.0-toolbar-po-mdk.path
 # (tv) add runlevel to initscript
 Patch3:		mc-4.6.0-init.patch
 #Patch4:	mc-4.6.0-ptsname.patch
@@ -65,7 +64,7 @@ Patch108:	mc-showfree.patch
 Patch109:	mc-delcheck.patch
 # allow exit command even on non-local filesystems (#202440)
 Patch110:	mc-exit.patch
-Patch111:	mc-newlinedir.patch
+Patch111:	mc-4.6.2-newlinedir.patch
 # fix displaying of prompt in subshell
 Patch113:	mc-prompt.patch
 
@@ -110,7 +109,6 @@ files, and poke into RPMs for specific files.
 %setup -q -n %{dirname}
 
 %patch1 -p1 -b .rpm_obsolete_tags
-#%patch2 -p1 -b .toolbarpo rediff?
 %patch3 -p1 -b .initlevel
 # fixme: disabled P4
 #%%patch4 -p1 -b .ptsname
@@ -132,7 +130,7 @@ files, and poke into RPMs for specific files.
 #%patch108 -p1 rediff?
 %patch109 -p1
 %patch110 -p1
-#%patch111 -p1
+%patch111 -p1
 %patch113 -p1
 
 %patch200 -p1
