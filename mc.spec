@@ -109,7 +109,7 @@ files, and poke into RPMs for specific files.
 
 %prep
 %setup -q -n %{dirname}
-%patch100 -p1 -b .utf8
+
 %patch1 -p1 -b .rpm_obsolete_tags
 %patch3 -p1 -b .initlevel
 # fixme: disabled P4
