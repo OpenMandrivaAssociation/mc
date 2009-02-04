@@ -40,16 +40,17 @@ Patch7:		u7z.patch
 Patch8:		mc-4.6.1.lzma.patch
 Patch9:		mc-4.6.2-xdg.patch
 Patch10:	mc-4.6.2-shortcut.patch
+Patch11:	mc-4.6.2-do-not-mark-tabs.patch
+Patch12:	mc-4.6.2-missing-mhl-header.patch
+Patch13:	mc-4.6.2-pl-po.patch
 
 # ** Fedora patchset: 100 - 199 **
 
 # UTF-8 patches, rediffed by AdamW for 20071018 snapshot
 # (tpg) http://www.midnight-commander.org/downloads/mc-4.6.2-utf8.patch.gz
 Patch100:	mc-4.6.2-utf8.patch
-Patch101:	mc-utf8-8bit-hex.patch
 # Hostname
 Patch102:	mc-userhost.patch
-Patch103:	mc-utf8-look-and-feel.patch
 # IPv6 support for FTPFS
 Patch104:	mc-ipv6.patch
 # refresh contents of terminal when resized during time expensive I/O
@@ -77,6 +78,7 @@ Patch203:	mc-mc.ext.patch
 Patch204:	mc-localenames.patch
 Patch205:	mc-nolibs.patch
 Patch206:	mc-4.6.2-vhdl-syntax.patch
+Patch207:	mc-4.6.2-awk-syntax.patch
 
 # From OpenSUSE: fix display of nlinks column in UTF-8 locales
 # (#34207, SUSE #194715) - AdamW 2008/01
@@ -107,7 +109,7 @@ files, and poke into RPMs for specific files.
 
 %prep
 %setup -q -n %{dirname}
-
+%patch100 -p1 -b .utf8
 %patch1 -p1 -b .rpm_obsolete_tags
 %patch3 -p1 -b .initlevel
 # fixme: disabled P4
@@ -118,11 +120,12 @@ files, and poke into RPMs for specific files.
 %patch8 -p1 -b .lzma
 %patch9 -p1 -b .xdg
 %patch10 -p1 -b .shortcut
+%patch11 -p1 -b .tabs
+%patch12 -p1 -b .mhl
+%patch13 -p1 -b .pl
 
-%patch100 -p1
-#%patch101 -p1 rediff?
+%patch100 -p1 -b .utf8
 #%patch102 -p1 rediff?
-#%patch103 -p1 rediff?
 %patch104 -p1
 %patch105 -p1
 %patch106 -p1
@@ -141,6 +144,7 @@ cp -f vfs/extfs/{rpm,srpm}
 %patch204 -p0
 %patch205 -p1
 %patch206 -p1
+%patch207 -p1
 
 #%patch300 -p1 -b .nlink rediff?
 
@@ -195,11 +199,13 @@ sed -i -e 's,C-\\\\,C-\\\\ or C-l,g' src/main.c po/*.po
 %{__autoconf}
 %{__automake}
 %endif
-
-X11_WWW="www-browser" %serverbuild
+%serverbuild
+export X11_WWW="www-browser"
+export CFLAGS="%{optflags} -DUTF8"
 
 %configure2_5x \
     --with-debug \
+    --enable-dependency-tracking \
     --without-included-gettext \
     --without-included-slang \
     --with-screen=slang \
@@ -207,6 +213,10 @@ X11_WWW="www-browser" %serverbuild
     --enable-charset \
     --enable-largefile \
     --disable-rpath \
+    --with-mcfs \
+    --enable-extcharset \
+    --with-ext2undel \
+    --with-mmap \
 %if %without_x
     --without-x
 %endif
@@ -239,6 +249,7 @@ rm -rf %{buildroot}
 %{_bindir}/mcedit
 %{_bindir}/mcmfmt
 %{_bindir}/mcview
+%{_sbindir}/mcserv
 %dir %{_libdir}/mc/
 %{_libdir}/mc/cons.saver
 %{_datadir}/mc/cedit.menu
@@ -255,6 +266,7 @@ rm -rf %{buildroot}
 %{_datadir}/mc/mc.charsets
 %{_datadir}/mc/extfs/*
 %{_mandir}/man1/*
+%{_mandir}/man8/*
 %dir %{_datadir}/mc
 %dir %{_datadir}/mc/bin
 %{_datadir}/mc/bin/*
