@@ -50,7 +50,7 @@ Patch13:	mc-4.6.2-pl-po.patch
 # (tpg) http://www.midnight-commander.org/downloads/mc-4.6.2-utf8.patch.gz
 Patch100:	mc-4.6.2-utf8.patch
 # Hostname
-Patch102:	mc-userhost.patch
+Patch102:	mc-4.6.2-userhost.patch
 # IPv6 support for FTPFS
 Patch104:	mc-ipv6.patch
 # refresh contents of terminal when resized during time expensive I/O
@@ -125,7 +125,7 @@ files, and poke into RPMs for specific files.
 %patch13 -p1 -b .pl
 
 %patch100 -p1 -b .utf8
-#%patch102 -p1 rediff?
+%patch102 -p1
 %patch104 -p1
 %patch105 -p1
 %patch106 -p1
