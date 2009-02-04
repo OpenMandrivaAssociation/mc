@@ -1,7 +1,7 @@
 # avoid dependency on X11 libraries
 %define without_x       1
 
-%define rel	5
+%define rel	6
 %define	cvs	0
 # cvs -z3 -d:pserver:anoncvs@cvs.savannah.gnu.org:/cvsroot/mc co mc
 
