@@ -37,7 +37,7 @@ Patch6:		mc-4.6.1-decent_defaults.diff
 # slightly. Modified not to test for '7z', as we don't package it, 
 # only '7za' - AdamW 2007/07
 Patch7:		u7z.patch
-Patch8:		mc-4.6.1.lzma.patch
+Patch8:		mc-4.6.2-xz-support.patch
 Patch9:		mc-4.6.2-xdg.patch
 Patch10:	mc-4.6.2-shortcut.patch
 Patch11:	mc-4.6.2-do-not-mark-tabs.patch
@@ -117,7 +117,7 @@ files, and poke into RPMs for specific files.
 %patch5 -p1 -b .bourne_compliancy
 %patch6 -p0 -b .decent_defaults
 %patch7 -p0 -b .u7z
-%patch8 -p1 -b .lzma
+%patch8 -p1 -b .xz~
 %patch9 -p1 -b .xdg
 %patch10 -p1 -b .shortcut
 %patch11 -p1 -b .tabs
@@ -226,15 +226,13 @@ export CFLAGS="%{optflags} -DUTF8"
 %install
 rm -rf %{buildroot}
 
-install -d %{buildroot}%{_sysconfdir}/{pam.d,profile.d,X11/wmconfig} %{buildroot}%{_initrddir}
-
 #fix mc-wrapper.sh
 perl -p -i -e 's/rm -f \"/rm -rf \"/g' lib/mc-wrapper.sh
 
 %makeinstall
 
-install -m 644 lib/mc.sh %{buildroot}%{_sysconfdir}/profile.d/20mc.sh
-install -m 644 lib/mc.csh %{buildroot}%{_sysconfdir}/profile.d/20mc.csh
+install -m644 lib/mc.sh -D %{buildroot}%{_sysconfdir}/profile.d/20mc.sh
+install -m644 lib/mc.csh -D %{buildroot}%{_sysconfdir}/profile.d/20mc.csh
 
 %{find_lang} %{name}
 
