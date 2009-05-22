@@ -1,7 +1,7 @@
 # avoid dependency on X11 libraries
 %define without_x       1
 
-%define rel	8
+%define rel	9
 %define	cvs	0
 # cvs -z3 -d:pserver:anoncvs@cvs.savannah.gnu.org:/cvsroot/mc co mc
 
@@ -23,6 +23,8 @@ License:	GPLv2+
 Group:		File tools
 URL:		http://www.midnight-commander.org/
 Source0:	http://www.midnight-commander.org/downloads/%{distname}
+# using correct symlinks for automake 1.11
+Source1:	mc-4.6.2-automake1.11.tar.bz2
 
 # ** Mandriva patches: 0 - 99 **
 
@@ -80,6 +82,10 @@ Patch205:	mc-nolibs.patch
 Patch206:	mc-4.6.2-vhdl-syntax.patch
 Patch207:	mc-4.6.2-awk-syntax.patch
 
+# ** Other patches: 300 - 399 **
+# based on upstream commit d0beb4cfec
+Patch300:	mc-4.6.2-create-homedir.patch
+
 Requires:	groff
 BuildRequires:	libext2fs-devel
 BuildRequires:	libgpm-devel >= 0.18
@@ -105,6 +111,7 @@ files, and poke into RPMs for specific files.
 
 %prep
 %setup -q -n %{dirname}
+tar xjf %SOURCE1
 
 %patch1 -p1 -b .rpm_obsolete_tags
 %patch3 -p1 -b .initlevel
@@ -141,6 +148,8 @@ cp -f vfs/extfs/{rpm,srpm}
 %patch205 -p1
 %patch206 -p1
 %patch207 -p1
+
+%patch300 -p1 -b .homedir
 
 sed -i 's:|hxx|:|hh|hpp|hxx|:' syntax/Syntax
 
