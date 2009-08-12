@@ -79,7 +79,8 @@ Requires:	groff
 BuildRequires:	libext2fs-devel
 BuildRequires:	libgpm-devel >= 0.18
 BuildRequires:	pam-devel
-BuildRequires:	ncursesw-devel
+BuildRequires:	slang-devel
+Buildrequires:	glib2-devel
 BuildRequires:	pcre-devel
 BuildRequires:  autoconf
 BuildRequires:	bison
@@ -193,7 +194,7 @@ export CFLAGS="%{optflags} -DUTF8"
     --enable-dependency-tracking \
     --without-included-gettext \
     --without-included-slang \
-    --with-screen=ncursesw \
+    --with-screen=slang \
     --with-search-engine=pcre \
     --enable-nls \
     --enable-charset \
