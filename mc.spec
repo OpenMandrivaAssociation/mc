@@ -7,7 +7,7 @@
 # cvs -z3 -d:pserver:anoncvs@cvs.savannah.gnu.org:/cvsroot/mc co mc
 
 %if %prel
-%define release		%mkrel -c %{prel} 1
+%define release		%mkrel -c %{prel} 2
 %define distname	%{name}-%{version}-%{prel}.tar.bz2
 %define dirname		%{name}-%{version}-%{prel}
 %else
