@@ -7,7 +7,7 @@
 # cvs -z3 -d:pserver:anoncvs@cvs.savannah.gnu.org:/cvsroot/mc co mc
 
 %if %prel
-%define release		%mkrel -c %{prel} 2
+%define release		%mkrel -c %{prel} 3
 %define distname	%{name}-%{version}-%{prel}.tar.bz2
 %define dirname		%{name}-%{version}-%{prel}
 %else
@@ -33,7 +33,6 @@ Source1:	mc-4.6.2-automake1.11.tar.bz2
 # (tv) add runlevel to initscript
 Patch3:		mc-4.6.0-init.patch
 #Patch4:	mc-4.6.0-ptsname.patch
-Patch5:		mc-4.6.1-bourne-compliancy.patch
 Patch6:		mc-4.6.1-decent_defaults.diff
 Patch8:		mc-4.6.2-xz-support.patch
 Patch9:		mc-4.6.2-xdg.patch
@@ -106,7 +105,6 @@ tar xjf %SOURCE1
 #%patch3 -p1 -b .initlevel rediff?
 # fixme: disabled P4
 #%%patch4 -p1 -b .ptsname
-#%patch5 -p1 -b .bourne_compliancy rediff ?
 %patch6 -p0 -b .decent_defaults
 #%patch8 -p1 -b .xz~ rediff?
 #%patch9 -p1 -b .xdg rediff?
@@ -187,7 +185,6 @@ mv -f po/{no,nb}.po
 %endif
 %serverbuild
 export X11_WWW="www-browser"
-export CFLAGS="%{optflags} -DUTF8"
 
 %configure2_5x \
     --with-debug \
@@ -195,7 +192,7 @@ export CFLAGS="%{optflags} -DUTF8"
     --without-included-gettext \
     --without-included-slang \
     --with-screen=slang \
-    --with-search-engine=pcre \
+    --with-search-engine=glib \
     --enable-nls \
     --enable-charset \
     --enable-largefile \
