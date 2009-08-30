@@ -103,7 +103,7 @@ tar xjf %SOURCE1
 #%patch3 -p1 -b .initlevel rediff?
 # fixme: disabled P4
 #%%patch4 -p1 -b .ptsname
-%patch6 -p0 -b .decent_defaults
+%patch6 -p1 -b .decent_defaults
 #%patch8 -p1 -b .xz~ rediff?
 #%patch9 -p1 -b .xdg rediff?
 %patch10 -p1 -b .shortcut
