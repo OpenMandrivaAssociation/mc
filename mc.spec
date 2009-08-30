@@ -3,11 +3,11 @@
 
 %define Werror_cflags %nil
 %define rel	1
-%define	prel	pre1
+%define	prel	pre2
 # cvs -z3 -d:pserver:anoncvs@cvs.savannah.gnu.org:/cvsroot/mc co mc
 
 %if %prel
-%define release		%mkrel -c %{prel} 4
+%define release		%mkrel -c %{prel} 1
 %define distname	%{name}-%{version}-%{prel}.tar.bz2
 %define dirname		%{name}-%{version}-%{prel}
 %else
@@ -33,20 +33,18 @@ Source1:	mc-4.6.2-automake1.11.tar.bz2
 # (tv) add runlevel to initscript
 Patch3:		mc-4.6.0-init.patch
 #Patch4:	mc-4.6.0-ptsname.patch
-Patch6:		mc-4.6.1-decent_defaults.diff
+Patch6:		mc-4.7.0-pre2-decent_defaults.patch
 Patch8:		mc-4.6.2-xz-support.patch
 Patch9:		mc-4.6.2-xdg.patch
 Patch10:	mc-4.6.2-shortcut.patch
 Patch11:	mc-4.6.2-do-not-mark-tabs.patch
-Patch12:	mc-4.6.2-missing-mhl-header.patch
+Patch12:	mc-4.7.0-pre2-missing-mhl-header.patch
 Patch13:	mc-4.6.2-pl-po.patch
 
 # ** Fedora patchset: 100 - 199 **
 
 # Hostname
 Patch102:	mc-4.6.2-userhost.patch
-# IPv6 support for FTPFS
-Patch104:	mc-ipv6.patch
 # refresh contents of terminal when resized during time expensive I/O
 # operations
 Patch105:	mc-refresh.patch
@@ -114,7 +112,6 @@ tar xjf %SOURCE1
 #%patch13 -p1 -b .pl rediff?
 
 #%patch102 -p1 rediff?
-%patch104 -p1
 %patch105 -p1
 #%patch106 -p1 rediff?
 #%patch107 -p1 rediff?
@@ -134,7 +131,7 @@ cp -f vfs/extfs/{rpm,srpm}
 
 sed -i 's:|hxx|:|hh|hpp|hxx|:' syntax/Syntax
 
-mv -f po/{no,nb}.po
+#mv -f po/{no,nb}.po
 
 %build
 
