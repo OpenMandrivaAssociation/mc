@@ -7,7 +7,7 @@
 # cvs -z3 -d:pserver:anoncvs@cvs.savannah.gnu.org:/cvsroot/mc co mc
 
 %if %prel
-%define release		%mkrel -c %{prel} 1
+%define release		%mkrel -c %{prel} 2
 %define distname	%{name}-%{version}-%{prel}.tar.bz2
 %define dirname		%{name}-%{version}-%{prel}
 %else
@@ -31,10 +31,10 @@ Source1:	mc-4.6.2-automake1.11.tar.bz2
 # ** Mandriva patches: 0 - 99 **
 
 # (tv) add runlevel to initscript
+Patch0:		mc-4.7.0-pre2-xz-support.patch
 Patch3:		mc-4.6.0-init.patch
 #Patch4:	mc-4.6.0-ptsname.patch
 Patch6:		mc-4.7.0-pre2-decent_defaults.patch
-Patch8:		mc-4.6.2-xz-support.patch
 Patch9:		mc-4.6.2-xdg.patch
 Patch10:	mc-4.6.2-shortcut.patch
 Patch11:	mc-4.6.2-do-not-mark-tabs.patch
@@ -100,11 +100,11 @@ files, and poke into RPMs for specific files.
 %setup -q -n %{dirname}
 tar xjf %SOURCE1
 
+%patch0 -p1 -b .xz
 #%patch3 -p1 -b .initlevel rediff?
 # fixme: disabled P4
 #%%patch4 -p1 -b .ptsname
 %patch6 -p1 -b .decent_defaults
-#%patch8 -p1 -b .xz~ rediff?
 #%patch9 -p1 -b .xdg rediff?
 %patch10 -p1 -b .shortcut
 %patch11 -p1 -b .tabs
