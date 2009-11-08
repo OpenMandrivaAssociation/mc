@@ -3,12 +3,12 @@
 
 %define Werror_cflags %nil
 %define rel	1
-%define	prel	pre2
+%define	prel	pre4
 # cvs -z3 -d:pserver:anoncvs@cvs.savannah.gnu.org:/cvsroot/mc co mc
 
 %if %prel
-%define release		%mkrel -c %{prel} 3
-%define distname	%{name}-%{version}-%{prel}.tar.bz2
+%define release		%mkrel -c %{prel} 1
+%define distname	%{name}-%{version}-%{prel}.tar.lzma
 %define dirname		%{name}-%{version}-%{prel}
 %else
 %define release		%mkrel %{rel}
@@ -31,7 +31,6 @@ Source1:	mc-4.6.2-automake1.11.tar.bz2
 # ** Mandriva patches: 0 - 99 **
 
 # (tv) add runlevel to initscript
-Patch0:		mc-4.7.0-pre2-xz-support.patch
 Patch3:		mc-4.6.0-init.patch
 #Patch4:	mc-4.6.0-ptsname.patch
 Patch6:		mc-4.7.0-pre2-decent_defaults.patch
@@ -72,7 +71,6 @@ Patch205:	mc-nolibs.patch
 # based on upstream commit d0beb4cfec
 Patch300:	mc-4.6.2-create-homedir.patch
 
-Requires:	groff
 BuildRequires:	libext2fs-devel
 BuildRequires:	libgpm-devel >= 0.18
 BuildRequires:	pam-devel
@@ -88,6 +86,7 @@ BuildRequires:	X11-devel
 %if %prel
 BuildRequires:	gettext-devel
 %endif
+Requires:	groff
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 %description
@@ -100,19 +99,18 @@ files, and poke into RPMs for specific files.
 %setup -q -n %{dirname}
 tar xjf %SOURCE1
 
-%patch0 -p1 -b .xz
 #%patch3 -p1 -b .initlevel rediff?
 # fixme: disabled P4
 #%%patch4 -p1 -b .ptsname
 %patch6 -p1 -b .decent_defaults
 #%patch9 -p1 -b .xdg rediff?
-%patch10 -p1 -b .shortcut
+#%patch10 -p1 -b .shortcut rediff?
 %patch11 -p1 -b .tabs
 %patch12 -p1 -b .mhl
 #%patch13 -p1 -b .pl rediff?
 
 #%patch102 -p1 rediff?
-%patch105 -p1
+%patch105 -p1 -b .refresh
 #%patch106 -p1 rediff?
 #%patch107 -p1 rediff?
 #%patch108 -p1 rediff?
@@ -223,22 +221,25 @@ rm -rf %{buildroot}
 %files -f %{name}.lang
 %defattr(-,root,root)
 %doc NEWS README
+%dir %{_libdir}/mc/
+%dir %{_datadir}/mc
+%dir %{_libdir}/mc/skins
+%dir %{_libdir}/mc/extfs
+%dir %{_libdir}/mc/syntax
+%{_sysconfdir}/profile.d/*
+%{_sysconfdir}/mc
 %{_bindir}/mc
 %{_bindir}/mcedit
 %{_bindir}/mcmfmt
 %{_bindir}/mcview
-%{_sysconfdir}/mc
 %{_libdir}/mc/mc*.*sh
-%dir %{_libdir}/mc/
 %{_libdir}/mc/cons.saver
 %{_datadir}/mc/mc.hint
 %{_datadir}/mc/mc.hint.*
 %{_datadir}/mc/mc.hlp
 %{_datadir}/mc/mc.hlp.*
-%{_datadir}/mc/mc.menu.*
+%{_datadir}/mc/skins/*
 %{_datadir}/mc/extfs/*
+%{_datadir}/mc/syntax/*
 %{_mandir}/*/man1/*
 %{_mandir}/man1/*
-%dir %{_datadir}/mc
-%{_datadir}/mc/syntax/
-%{_sysconfdir}/profile.d/*
