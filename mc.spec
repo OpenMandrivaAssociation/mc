@@ -223,9 +223,9 @@ rm -rf %{buildroot}
 %doc NEWS README
 %dir %{_libdir}/mc/
 %dir %{_datadir}/mc
-%dir %{_libdir}/mc/skins
-%dir %{_libdir}/mc/extfs
-%dir %{_libdir}/mc/syntax
+%dir %{_datadir}/mc/skins
+%dir %{_datadir}/mc/extfs
+%dir %{_datadir}/mc/syntax
 %{_sysconfdir}/profile.d/*
 %{_sysconfdir}/mc
 %{_bindir}/mc
