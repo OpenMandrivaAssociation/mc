@@ -70,6 +70,7 @@ Patch205:	mc-nolibs.patch
 # ** Other patches: 300 - 399 **
 # based on upstream commit d0beb4cfec
 Patch300:	mc-4.6.2-create-homedir.patch
+Patch301:	mc-4.7.0-pre4-use_okular_for_pdf_files.diff
 
 BuildRequires:	libext2fs-devel
 BuildRequires:	libgpm-devel >= 0.18
@@ -126,6 +127,7 @@ cp -f vfs/extfs/{rpm,srpm}
 #%patch205 -p1 rediff?
 
 #%patch300 -p1 -b .homedir rediff?
+%patch301 -p0 -b .use_okular_for_pdf_files
 
 sed -i 's:|hxx|:|hh|hpp|hxx|:' syntax/Syntax
 
