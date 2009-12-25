@@ -3,7 +3,7 @@
 
 %define Werror_cflags %nil
 %define rel	1
-%define	prel	pre4
+%define	prel	0
 # cvs -z3 -d:pserver:anoncvs@cvs.savannah.gnu.org:/cvsroot/mc co mc
 
 %if %prel
@@ -12,7 +12,7 @@
 %define dirname		%{name}-%{version}-%{prel}
 %else
 %define release		%mkrel %{rel}
-%define distname	%{name}-%{version}.tar.bz2
+%define distname	%{name}-%{version}.tar.lzma
 %define dirname		%{name}-%{version}
 %endif
 
