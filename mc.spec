@@ -84,9 +84,7 @@ BuildRequires:	bison
 %else
 BuildRequires:	X11-devel
 %endif
-%if %prel
 BuildRequires:	gettext-devel
-%endif
 Requires:	groff
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
