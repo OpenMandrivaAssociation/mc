@@ -19,7 +19,7 @@
 
 Summary:	A user-friendly file manager and visual shell
 Name:		mc
-Version:	4.7.0.1
+Version:	4.7.0.2
 Release:	%{release}
 License:	GPLv2+
 Group:		File tools
@@ -36,8 +36,8 @@ Patch3:		mc-4.6.0-init.patch
 Patch6:		mc-4.7.0-pre2-decent_defaults.patch
 Patch9:		mc-4.6.2-xdg.patch
 Patch10:	mc-4.6.2-shortcut.patch
-Patch11:	mc-4.6.2-do-not-mark-tabs.patch
-Patch12:	mc-4.7.0-pre2-missing-mhl-header.patch
+Patch11:	mc-4.7.0.2-do-not-mark-tabs.patch
+Patch12:	mc-4.7.0.2-missing-mhl-header.patch
 Patch13:	mc-4.6.2-pl-po.patch
 
 # ** Fedora patchset: 100 - 199 **
@@ -120,7 +120,7 @@ tar xjf %SOURCE1
 #%patch111 -p1 rediff?
 #%patch113 -p1 rediff?
 
-cp -f vfs/extfs/{rpm,srpm}
+cp -f lib/vfs/mc-vfs/extfs/{rpm,srpm}
 #%patch202 -p1 rediff?
 #%patch203 -p1 rediff?
 #%patch204 -p0 rediff?
@@ -129,7 +129,7 @@ cp -f vfs/extfs/{rpm,srpm}
 #%patch300 -p1 -b .homedir rediff?
 %patch301 -p0 -b .use_okular_for_pdf_files
 
-sed -i 's:|hxx|:|hh|hpp|hxx|:' syntax/Syntax
+sed -i 's:|hxx|:|hh|hpp|hxx|:' misc/syntax/Syntax
 
 #mv -f po/{no,nb}.po
 
@@ -173,13 +173,7 @@ sed -i 's:|hxx|:|hh|hpp|hxx|:' syntax/Syntax
 # update the menu entry for directory hotlist to match change in shortcut.patch
 #sed -i -e 's,C-\\\\,C-\\\\ or C-l,g' src/main.c po/*.po
 
-%if %prel
-#./autogen.sh
-%else
-%{__aclocal} -I m4
-%{__autoconf}
-%{__automake}
-%endif
+autoreconf -fi
 %serverbuild
 export X11_WWW="www-browser"
 
