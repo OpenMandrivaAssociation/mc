@@ -19,7 +19,7 @@
 
 Summary:	A user-friendly file manager and visual shell
 Name:		mc
-Version:	4.7.0.2
+Version:	4.7.0.3
 Release:	%{release}
 License:	GPLv2+
 Group:		File tools
