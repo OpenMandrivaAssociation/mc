@@ -19,7 +19,7 @@
 
 Summary:	A user-friendly file manager and visual shell
 Name:		mc
-Version:	4.7.0.4
+Version:	4.7.2
 Release:	%{release}
 License:	GPLv2+
 Group:		File tools
@@ -218,22 +218,22 @@ rm -rf %{buildroot}
 %dir %{_libdir}/mc/
 %dir %{_datadir}/mc
 %dir %{_datadir}/mc/skins
-%dir %{_datadir}/mc/extfs
 %dir %{_datadir}/mc/syntax
 %{_sysconfdir}/profile.d/*
 %{_sysconfdir}/mc
 %{_bindir}/mc
+%{_bindir}/mcdiff
 %{_bindir}/mcedit
 %{_bindir}/mcmfmt
 %{_bindir}/mcview
 %{_libdir}/mc/mc*.*sh
 %{_libdir}/mc/cons.saver
+%{_libdir}/mc/extfs.d/*
 %{_datadir}/mc/mc.hint
 %{_datadir}/mc/mc.hint.*
 %{_datadir}/mc/mc.hlp
 %{_datadir}/mc/mc.hlp.*
 %{_datadir}/mc/skins/*
-%{_datadir}/mc/extfs/*
 %{_datadir}/mc/syntax/*
 %{_mandir}/*/man1/*
 %{_mandir}/man1/*
