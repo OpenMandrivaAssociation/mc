@@ -2,7 +2,7 @@
 %define without_x       1
 
 %define Werror_cflags %nil
-%define rel	1
+%define rel	2
 %define	prel	0
 # cvs -z3 -d:pserver:anoncvs@cvs.savannah.gnu.org:/cvsroot/mc co mc
 
@@ -71,6 +71,8 @@ Patch205:	mc-nolibs.patch
 # based on upstream commit d0beb4cfec
 Patch300:	mc-4.6.2-create-homedir.patch
 Patch301:	mc-4.7.0-pre4-use_okular_for_pdf_files.diff
+Patch302:	mc-4.7.2-fix-args-1.patch
+Patch303:	mc-4.7.2-fix-args-2.patch
 
 BuildRequires:	libext2fs-devel
 BuildRequires:	libgpm-devel >= 0.18
@@ -117,6 +119,9 @@ tar xjf %SOURCE1
 #%patch110 -p1 rediff?
 #%patch111 -p1 rediff?
 #%patch113 -p1 rediff?
+
+%patch302 -p1 -b .args-1
+%patch303 -p1 -b .args-2
 
 cp -f lib/vfs/mc-vfs/extfs/{rpm,srpm}
 #%patch202 -p1 rediff?
