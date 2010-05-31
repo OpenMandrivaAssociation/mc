@@ -2,7 +2,7 @@
 %define without_x       1
 
 %define Werror_cflags %nil
-%define rel	2
+%define rel	3
 %define	prel	0
 # cvs -z3 -d:pserver:anoncvs@cvs.savannah.gnu.org:/cvsroot/mc co mc
 
@@ -39,6 +39,7 @@ Patch10:	mc-4.6.2-shortcut.patch
 Patch11:	mc-4.7.0.2-do-not-mark-tabs.patch
 Patch12:	mc-4.7.0.2-missing-mhl-header.patch
 Patch13:	mc-4.6.2-pl-po.patch
+Patch14:	mc-4.7.2-bash_history.patch
 
 # ** Fedora patchset: 100 - 199 **
 
@@ -109,6 +110,7 @@ tar xjf %SOURCE1
 %patch11 -p1 -b .tabs
 %patch12 -p1 -b .mhl
 #%patch13 -p1 -b .pl rediff?
+%patch14 -p1
 
 #%patch102 -p1 rediff?
 %patch105 -p1 -b .refresh
