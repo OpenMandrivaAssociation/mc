@@ -19,14 +19,12 @@
 
 Summary:	A user-friendly file manager and visual shell
 Name:		mc
-Version:	4.7.3
+Version:	4.7.4
 Release:	%{release}
 License:	GPLv2+
 Group:		File tools
 URL:		http://www.midnight-commander.org/
 Source0:	http://www.midnight-commander.org/downloads/%{distname}
-# using correct symlinks for automake 1.11
-Source1:	mc-4.6.2-automake1.11.tar.bz2
 
 # ** Mandriva patches: 0 - 99 **
 
@@ -37,7 +35,6 @@ Patch6:		mc-4.7.0-pre2-decent_defaults.patch
 Patch9:		mc-4.6.2-xdg.patch
 Patch10:	mc-4.6.2-shortcut.patch
 Patch11:	mc-4.7.0.2-do-not-mark-tabs.patch
-Patch12:	mc-4.7.0.2-missing-mhl-header.patch
 Patch13:	mc-4.6.2-pl-po.patch
 Patch14:	mc-4.7.2-bash_history.patch
 
@@ -97,7 +94,6 @@ files, and poke into RPMs for specific files.
 
 %prep
 %setup -q -n %{dirname}
-tar xjf %SOURCE1
 
 #%patch3 -p1 -b .initlevel rediff?
 # fixme: disabled P4
@@ -106,7 +102,6 @@ tar xjf %SOURCE1
 #%patch9 -p1 -b .xdg rediff?
 #%patch10 -p1 -b .shortcut rediff?
 %patch11 -p1 -b .tabs
-%patch12 -p1 -b .mhl
 #%patch13 -p1 -b .pl rediff?
 %patch14 -p1
 
