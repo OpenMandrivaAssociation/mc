@@ -16,10 +16,9 @@
 %define dirname		%{name}-%{version}
 %endif
 
-
 Summary:	A user-friendly file manager and visual shell
 Name:		mc
-Version:	4.7.4
+Version:	4.7.5
 Release:	%{release}
 License:	GPLv2+
 Group:		File tools
@@ -30,7 +29,6 @@ Source0:	http://www.midnight-commander.org/downloads/%{distname}
 
 # (tv) add runlevel to initscript
 Patch3:		mc-4.6.0-init.patch
-#Patch4:	mc-4.6.0-ptsname.patch
 Patch6:		mc-4.7.0-pre2-decent_defaults.patch
 Patch9:		mc-4.6.2-xdg.patch
 Patch10:	mc-4.6.2-shortcut.patch
@@ -96,17 +94,15 @@ files, and poke into RPMs for specific files.
 %setup -q -n %{dirname}
 
 #%patch3 -p1 -b .initlevel rediff?
-# fixme: disabled P4
-#%%patch4 -p1 -b .ptsname
-%patch6 -p1 -b .decent_defaults
+%patch6 -p0 -b .decent_defaults
 #%patch9 -p1 -b .xdg rediff?
 #%patch10 -p1 -b .shortcut rediff?
-%patch11 -p1 -b .tabs
+%patch11 -p0 -b .tabs
 #%patch13 -p1 -b .pl rediff?
 %patch14 -p1
 
 #%patch102 -p1 rediff?
-%patch105 -p1 -b .refresh
+%patch105 -p0 -b .refresh
 #%patch106 -p1 rediff?
 #%patch107 -p1 rediff?
 #%patch108 -p1 rediff?
@@ -218,22 +214,28 @@ rm -rf %{buildroot}
 %dir %{_datadir}/mc
 %dir %{_datadir}/mc/skins
 %dir %{_datadir}/mc/syntax
+%dir %{_datadir}/mc/hints
+%dir %{_datadir}/mc/help
 %{_sysconfdir}/profile.d/*
 %{_sysconfdir}/mc
 %{_bindir}/mc
 %{_bindir}/mcdiff
 %{_bindir}/mcedit
-%{_bindir}/mcmfmt
 %{_bindir}/mcview
-%{_libdir}/mc/mc*.*sh
 %{_libdir}/mc/cons.saver
 %{_libdir}/mc/extfs.d/*
 %{_libdir}/mc/fish/*
-%{_datadir}/mc/mc.hint
-%{_datadir}/mc/mc.hint.*
-%{_datadir}/mc/mc.hlp
-%{_datadir}/mc/mc.hlp.*
+%{_libdir}/mc/mc*.*sh
+%{_datadir}/mc/help/*
+%{_datadir}/mc/hints/*
+%{_datadir}/mc/mc.charsets
+%{_datadir}/mc/mc.lib
 %{_datadir}/mc/skins/*
 %{_datadir}/mc/syntax/*
-%{_mandir}/*/man1/*
 %{_mandir}/man1/*
+%lang(es) %{_mandir}/es/man1/*
+%lang(hu) %{_mandir}/hu/man1/*
+%lang(it) %{_mandir}/it/man1/*
+%lang(pl) %{_mandir}/pl/man1/*
+%lang(ru) %{_mandir}/ru/man1/*
+%lang(sr) %{_mandir}/sr/man1/*
