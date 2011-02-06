@@ -2,28 +2,16 @@
 %define without_x       1
 
 %define Werror_cflags %nil
-%define rel	1
-%define	prel	0
-# cvs -z3 -d:pserver:anoncvs@cvs.savannah.gnu.org:/cvsroot/mc co mc
-
-%if %prel
-%define release		%mkrel -c %{prel} 1
-%define distname	%{name}-%{version}-%{prel}.tar.lzma
-%define dirname		%{name}-%{version}-%{prel}
-%else
-%define release		%mkrel %{rel}
-%define distname	%{name}-%{version}.tar.lzma
-%define dirname		%{name}-%{version}
-%endif
+%define rel	2
 
 Summary:	A user-friendly file manager and visual shell
 Name:		mc
 Version:	4.7.5.1
-Release:	%{release}
+Release:	%mkrel %rel
 License:	GPLv2+
 Group:		File tools
 URL:		http://www.midnight-commander.org/
-Source0:	http://www.midnight-commander.org/downloads/%{distname}
+Source0:	http://www.midnight-commander.org/downloads/%{name}-%{version}.tar.lzma
 
 # ** Mandriva patches: 0 - 99 **
 
@@ -91,7 +79,7 @@ running GPM.  Its coolest feature is the ability to ftp, view tar, zip
 files, and poke into RPMs for specific files.
 
 %prep
-%setup -q -n %{dirname}
+%setup -q -n %{name}-%{version}
 
 #%patch3 -p1 -b .initlevel rediff?
 %patch6 -p0 -b .decent_defaults
