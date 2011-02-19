@@ -2,7 +2,7 @@
 %define without_x       1
 
 %define Werror_cflags %nil
-%define rel	2
+%define rel 3
 
 Summary:	A user-friendly file manager and visual shell
 Name:		mc
