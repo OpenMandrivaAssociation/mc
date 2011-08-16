@@ -2,11 +2,11 @@
 %define without_x       1
 
 %define Werror_cflags %nil
-%define rel 3
+%define rel 1
 
 Summary:	A user-friendly file manager and visual shell
 Name:		mc
-Version:	4.7.5.2
+Version:	4.7.5.3
 Release:	%mkrel %rel
 License:	GPLv2+
 Group:		File tools
