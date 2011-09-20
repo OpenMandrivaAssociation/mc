@@ -2,12 +2,11 @@
 %define without_x       1
 
 %define Werror_cflags %nil
-%define rel 1
 
 Summary:	A user-friendly file manager and visual shell
 Name:		mc
-Version:	4.7.5.3
-Release:	%mkrel %rel
+Version:	4.7.5.4
+Release:	%mkrel 1
 License:	GPLv2+
 Group:		File tools
 URL:		http://www.midnight-commander.org/
