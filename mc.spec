@@ -5,12 +5,12 @@
 
 Summary:	A user-friendly file manager and visual shell
 Name:		mc
-Version:	4.7.5.4
+Version:	4.7.5.5
 Release:	%mkrel 1
 License:	GPLv2+
 Group:		File tools
 URL:		http://www.midnight-commander.org/
-Source0:	http://www.midnight-commander.org/downloads/%{name}-%{version}.tar.lzma
+Source0:	http://www.midnight-commander.org/downloads/%{name}-%{version}.tar.xz
 
 # ** Mandriva patches: 0 - 99 **
 
