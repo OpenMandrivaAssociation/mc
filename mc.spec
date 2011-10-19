@@ -5,7 +5,7 @@
 
 Summary:	A user-friendly file manager and visual shell
 Name:		mc
-Version:	4.7.5.5
+Version:	4.8.0
 Release:	%mkrel 1
 License:	GPLv2+
 Group:		File tools
@@ -16,8 +16,8 @@ Source0:	http://www.midnight-commander.org/downloads/%{name}-%{version}.tar.xz
 
 # (tv) add runlevel to initscript
 Patch3:		mc-4.6.0-init.patch
-Patch6:		mc-4.7.0-pre2-decent_defaults.patch
-Patch9:		mc-4.7.5-xdg.patch
+#Patch6:		mc-4.7.0-pre2-decent_defaults.patch
+#Patch9:		mc-4.7.5-xdg.patch
 Patch10:	mc-4.6.2-shortcut.patch
 Patch11:	mc-4.7.0.2-do-not-mark-tabs.patch
 Patch13:	mc-4.6.2-pl-po.patch
@@ -29,7 +29,7 @@ Patch14:	mc-4.7.2-bash_history.patch
 Patch102:	mc-4.6.2-userhost.patch
 # refresh contents of terminal when resized during time expensive I/O
 # operations
-Patch105:	mc-refresh.patch
+#Patch105:	mc-refresh.patch
 Patch106:	mc-64bit.patch
 # correctly concatenate directory and file in concat_dir_and_file()
 Patch107:	mc-concat.patch
@@ -80,16 +80,16 @@ files, and poke into RPMs for specific files.
 %prep
 %setup -q -n %{name}-%{version}
 
-#%patch3 -p1 -b .initlevel rediff?
-%patch6 -p0 -b .decent_defaults
-%patch9 -p1 -b .xdg
-#%patch10 -p1 -b .shortcut rediff?
+#patch3 -p1 -b .initlevel rediff?
+#patch6 -p0 -b .decent_defaults
+#patch9 -p1 -b .xdg
+#patch10 -p1 -b .shortcut rediff?
 %patch11 -p0 -b .tabs
-#%patch13 -p1 -b .pl rediff?
+#patch13 -p1 -b .pl rediff?
 %patch14 -p1
 
 #%patch102 -p1 rediff?
-%patch105 -p0 -b .refresh
+#patch105 -p0 -b .refresh
 #%patch106 -p1 rediff?
 #%patch107 -p1 rediff?
 #%patch108 -p1 rediff?
@@ -98,7 +98,7 @@ files, and poke into RPMs for specific files.
 #%patch111 -p1 rediff?
 #%patch113 -p1 rediff?
 
-cp -f lib/vfs/mc-vfs/extfs/{rpm,srpm}
+#cp -f lib/vfs/mc-vfs/extfs/{rpm,srpm}
 #%patch202 -p1 rediff?
 #%patch203 -p1 rediff?
 #%patch204 -p0 rediff?
@@ -203,6 +203,7 @@ rm -rf %{buildroot}
 %dir %{_datadir}/mc/syntax
 %dir %{_datadir}/mc/hints
 %dir %{_datadir}/mc/help
+%dir %{_datadir}/mc/examples
 %{_sysconfdir}/profile.d/*
 %{_sysconfdir}/mc
 %{_bindir}/mc
@@ -226,3 +227,4 @@ rm -rf %{buildroot}
 %lang(pl) %{_mandir}/pl/man1/*
 %lang(ru) %{_mandir}/ru/man1/*
 %lang(sr) %{_mandir}/sr/man1/*
+%{_datadir}/mc/examples/macros.d/*
