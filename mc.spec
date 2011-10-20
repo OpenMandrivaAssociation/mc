@@ -6,7 +6,7 @@
 Summary:	A user-friendly file manager and visual shell
 Name:		mc
 Version:	4.8.0
-Release:	%mkrel 1
+Release:	%mkrel 2
 License:	GPLv2+
 Group:		File tools
 URL:		http://www.midnight-commander.org/
@@ -17,7 +17,7 @@ Source0:	http://www.midnight-commander.org/downloads/%{name}-%{version}.tar.xz
 # (tv) add runlevel to initscript
 Patch3:		mc-4.6.0-init.patch
 #Patch6:		mc-4.7.0-pre2-decent_defaults.patch
-#Patch9:		mc-4.7.5-xdg.patch
+Patch9:		mc-4.8.0-xdg.patch
 Patch10:	mc-4.6.2-shortcut.patch
 Patch11:	mc-4.7.0.2-do-not-mark-tabs.patch
 Patch13:	mc-4.6.2-pl-po.patch
@@ -82,7 +82,7 @@ files, and poke into RPMs for specific files.
 
 #patch3 -p1 -b .initlevel rediff?
 #patch6 -p0 -b .decent_defaults
-#patch9 -p1 -b .xdg
+%patch9 -p1 -b .xdg
 #patch10 -p1 -b .shortcut rediff?
 %patch11 -p0 -b .tabs
 #patch13 -p1 -b .pl rediff?
