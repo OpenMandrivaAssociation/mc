@@ -5,8 +5,8 @@
 
 Summary:	A user-friendly file manager and visual shell
 Name:		mc
-Version:	4.8.0
-Release:	%mkrel 3
+Version:	4.8.1
+Release:	%mkrel 1
 License:	GPLv2+
 Group:		File tools
 URL:		http://www.midnight-commander.org/
