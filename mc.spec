@@ -3,10 +3,10 @@
 
 %define Werror_cflags %nil
 
-Summary:	A user-friendly file manager and visual shell
 Name:		mc
-Version:	4.8.1
+Version:	4.8.2
 Release:	%mkrel 1
+Summary:	A user-friendly file manager and visual shell
 License:	GPLv2+
 Group:		File tools
 URL:		http://www.midnight-commander.org/
@@ -61,15 +61,14 @@ BuildRequires:	pam-devel
 BuildRequires:	slang-devel
 Buildrequires:	glib2-devel
 BuildRequires:	pcre-devel
-BuildRequires:  autoconf
+BuildRequires:	autoconf
 BuildRequires:	bison
-%if %without_x
+%if %{without_x}
 %else
 BuildRequires:	X11-devel
 %endif
 BuildRequires:	gettext-devel
 Requires:	groff
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 %description
 Midnight Commander is a visual shell much like a file manager, only with way
@@ -107,50 +106,9 @@ files, and poke into RPMs for specific files.
 #%patch300 -p1 -b .homedir rediff?
 #%patch301 -p0 -b .use_okular_for_pdf_files patch9 does the job
 
-sed -i 's:|hxx|:|hh|hpp|hxx|:' misc/syntax/Syntax
-
-#mv -f po/{no,nb}.po
+%__sed -i 's:|hxx|:|hh|hpp|hxx|:' misc/syntax/Syntax
 
 %build
-
-# Convert translated files to UTF-8: bug #31578 - AdamW 2007/06
-
-#pushd doc
-# italian and spanish are already unicode, leave it out.
-#for i in hu pl ru sr; do pushd $i; \
-# this is ugly, but assume same encoding as .po file for each language.
-#iconv --from-code=`grep charset= ../../po/$i.po | cut -c36- | head -c-4 | tr "[:lower:]" "[:upper:]"` --to-code=UTF-8 mc.1.in > mc.1.in.new; \
-#iconv --from-code=`grep charset= ../../po/$i.po | cut -c36- | head -c-4 | tr "[:lower:]" "[:upper:]"` --to-code=UTF-8 xnc.hlp > xnc.hlp.new; \
-#mv -f mc.1.in.new mc.1.in; mv -f xnc.hlp.new xnc.hlp; popd; done
-#popd
-
-#pushd lib
-# rename zh to zh_TW, which is what it really is (I think)
-#mv mc.hint.zh mc.hint.zh_TW
-#perl -pi -e 's,mc.hint.zh,mc.hint.zh_TW,g' Makefile.am
-# hardcode the list as we need to leave es, it out and it just gets ugly doing it 'smartly'...
-#for i in cs hu nl pl ru sr uk zh_TW
-# this is ugly, but assume same encoding as .po file for each language.
-#do iconv --from-code=`grep charset= ../po/$i.po | cut -c36- | head -c-4 | tr "[:lower:]" "[:upper:]"` --to-code=UTF-8 mc.hint.$i > mc.hint.$i.new; \
-#mv -f mc.hint.$i.new mc.hint.$i; done
-#popd
-
-#pushd po
-# remove the original .mo files
-#rm -f *.gmo
-# find stuff that's not Unicode already
-#for i in `file *.po | grep -v Unicode | cut -d: -f1`; \
-# convert it: the grep, cut, head, tr grabs the source encoding from the .po file header, there's no other way to find it
-#do iconv --from-code=`grep charset= $i | cut -c36- | head -c-4 | tr "[:lower:]" "[:upper:]"` --to-code=UTF-8 $i > $i.new; \
-# change the header to say UTF-8
-#mv -f $i.new $i; perl -pi -e 's,charset=.*$,charset=UTF-8\\n",g' $i; done
-# regenerate the .mo files
-#for i in `ls *.po | cut -d. -f1`; do /usr/bin/msgfmt -c --statistics -o $i.gmo $i.po; done
-#popd
-
-# update the menu entry for directory hotlist to match change in shortcut.patch
-#sed -i -e 's,C-\\\\,C-\\\\ or C-l,g' src/main.c po/*.po
-
 autoreconf -fi
 %serverbuild
 export X11_WWW="www-browser"
@@ -170,30 +128,29 @@ export X11_WWW="www-browser"
     --enable-extcharset \
     --with-ext2undel \
     --with-mmap \
-%if %without_x
+%if %{without_x}
     --without-x
 %endif
 
 %make
 
 %install
-rm -rf %{buildroot}
+%__rm -rf %{buildroot}
 
 #fix mc-wrapper.sh
-perl -p -i -e 's/rm -f \"/rm -rf \"/g' lib/mc-wrapper.sh
+%__perl -p -i -e 's/rm -f \"/rm -rf \"/g' lib/mc-wrapper.sh
 
 %makeinstall_std
 
-install -m644 contrib/mc.sh -D %{buildroot}%{_sysconfdir}/profile.d/20mc.sh
-install -m644 contrib/mc.csh -D %{buildroot}%{_sysconfdir}/profile.d/20mc.csh
+%__install -m644 contrib/mc.sh -D %{buildroot}%{_sysconfdir}/profile.d/20mc.sh
+%__install -m644 contrib/mc.csh -D %{buildroot}%{_sysconfdir}/profile.d/20mc.csh
 
-%{find_lang} %{name}
+%find_lang %{name} --with-man
 
 %clean
-rm -rf %{buildroot}
+%__rm -rf %{buildroot}
 
 %files -f %{name}.lang
-%defattr(-,root,root)
 %doc NEWS README
 %dir %{_libdir}/mc
 %dir %{_libdir}/mc/extfs.d
@@ -221,10 +178,4 @@ rm -rf %{buildroot}
 %{_datadir}/mc/skins/*
 %{_datadir}/mc/syntax/*
 %{_mandir}/man1/*
-%lang(es) %{_mandir}/es/man1/*
-%lang(hu) %{_mandir}/hu/man1/*
-%lang(it) %{_mandir}/it/man1/*
-%lang(pl) %{_mandir}/pl/man1/*
-%lang(ru) %{_mandir}/ru/man1/*
-%lang(sr) %{_mandir}/sr/man1/*
 %{_datadir}/mc/examples/macros.d/*
