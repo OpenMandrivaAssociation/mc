@@ -55,7 +55,7 @@ Patch205:	mc-nolibs.patch
 Patch300:	mc-4.6.2-create-homedir.patch
 Patch301:	mc-4.7.0-pre4-use_okular_for_pdf_files.diff
 
-BuildRequires:	libext2fs-devel
+BuildRequires:	pkgconfig(ext2fs)
 BuildRequires:	libgpm-devel >= 0.18
 BuildRequires:	pam-devel
 BuildRequires:	slang-devel
