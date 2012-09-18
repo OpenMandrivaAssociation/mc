@@ -4,7 +4,7 @@
 #define Werror_cflags %nil
 
 Name:		mc
-Version:	4.8.4
+Version:	4.8.5
 Release:	%mkrel 1
 Summary:	A user-friendly file manager and visual shell
 License:	GPLv2+
