@@ -1,0 +1,177 @@
+diff -urN mc-4.8.0/misc/mc.ext.in mc-4.8.0-patched/misc/mc.ext.in
+--- mc-4.8.0/misc/mc.ext.in	2011-10-17 20:33:45.000000000 +1100
++++ mc-4.8.0-patched/misc/mc.ext.in	2011-10-20 16:54:46.662012163 +1100
+@@ -173,7 +173,7 @@
+ # rar
+ regex/\.[rR]([aA][rR]|[0-9][0-9])$
+ 	Open=%cd %p/urar://
+-	View=%view{ascii} rar v -c- %f
++	View=%view{ascii} unrar v -c- %f
+ 
+ # ALZip
+ regex/\.(alz|ALZ)$
+@@ -360,6 +360,13 @@
+ 	Open=which kchmviewer > /dev/null 2>&1 && (kchmviewer %f &) || (xchm %f &)
+ 
+ ### Images ###
++regex/\.([sS][vV][gG][zZ])$
++        Open=if [ "$DISPLAY" = "" ]; then zgv %f; else gwenview %f 2>/dev/null; fi
++        View=%view{ascii} identify %f
++
++type/^SVG
++        Open=if [ "$DISPLAY" = "" ]; then zgv %f; else gwenview %f 2>/dev/null; fi
++        View=%view{ascii} identify %f
+ 
+ type/^GIF
+ 	Include=image
+@@ -403,15 +410,18 @@
+ 	Include=image
+ 
+ include/image
+-	Open=if [ "$DISPLAY" = "" ]; then zgv %f; else (gqview %f &); fi
++	Open=if [ "$DISPLAY" = "" ]; then zgv %f; else xdg-open %f 2>/dev/null; fi
+ 	View=%view{ascii} identify %f
+ 	#View=%view{ascii} asciiview %f
+ 
+ 
+ ### Sound files ###
+ 
+-regex/\.([wW][aA][vV]|[sS][nN][dD]|[vV][oO][cC]|[aA][uU]|[sS][mM][pP]|[aA][iI][fF][fF]|[sS][nN][dD])$
+-       Open=if [ "$DISPLAY" = "" ]; then play %f; else (xmms %f >/dev/null 2>&1 &); fi
++regex/\.([wW][aA][vV]|[sS][nN][dD]|[aA][uU])$
++       Open=if [ "$DISPLAY" = "" ]; then play %f; else xdg-open %f 2>/dev/null; fi
++
++regex/\.([vV][oO][cC]|[sS][mM][pP]|[aA][iI][fF][fF])$
++       Open=if [ "$DISPLAY" = "" ]; then play %f; else (audacious %f >/dev/null &); fi
+ 
+ regex/\.([mM][oO][dD]|[sS]3[mM]|[xX][mM]|[iI][tT]|[mM][tT][mM]|669|[sS][tT][mM]|[uU][lL][tT]|[fF][aA][rR])$
+        Open=mikmod %f
+@@ -421,11 +431,11 @@
+        Open=vplay -s 22 %f
+ 
+ regex/\.([mM][pP]3)$
+-	Open=if [ "$DISPLAY" = "" ]; then mpg123 %f; else (xmms %f >/dev/null 2>&1 &); fi
++	Open=if [ "$DISPLAY" = "" ]; then mpg123 %f; else xdg-open %f 2>/dev/null; fi
+ 	View=%view{ascii} mpg123 -vtn1 %f 2>&1 | sed -n '/^Title/,/^Comment/p;/^MPEG/,/^Audio/p'
+ 
+ regex/\.([oO][gG][gG|aA|vV|xX])$
+-	Open=if [ "$DISPLAY" = "" ]; then ogg123 %f; else (xmms %f >/dev/null 2>&1 &); fi
++	Open=if [ "$DISPLAY" = "" ]; then ogg123 %f; else xdg-open %f 2>/dev/null; fi
+ 	View=%view{ascii} ogginfo %s
+ 
+ regex/\.([sS][pP][xX]|[fF][lL][aA][cC])$
+@@ -435,14 +445,14 @@
+ 	Open=timidity %f
+ 
+ regex/\.([wW][mM][aA])$
+-	Open=mplayer -vo null %f
++	Open=if [ "$DISPLAY" = "" ]; then mplayer -vo null %f; else xdg-open %f 2>/dev/null; fi
+ 	View=%view{ascii} mplayer -quiet -slave -frames 0 -vo null -ao null -identify %f 2>/dev/null | tail +13 || file %f
+ 
+ 
+ ### Play lists ###
+ 
+ regex/\.([mM]3[uU]|[pP][lL][sS])$
+-	Open=if [ -z "$DISPLAY" ]; then mplayer -vo null -playlist %f; else (xmms -p %f >/dev/null 2>&1 &); fi
++	Open=if [ -z "$DISPLAY" ]; then mplayer -vo null -playlist %f; else xdg-open %f 2>/dev/null; fi
+ 
+ 
+ ### Video ###
+@@ -485,7 +495,7 @@
+ 	Open=(realplay %f >/dev/null 2>&1 &)
+ 
+ include/video
+-	Open=(mplayer %f >/dev/null 2>&1 &)
++	Open=if [ -z "$DISPLAY" ]; then (mplayer %f >/dev/null 2>&1 &); else xdg-open %f 2>/dev/null; fi
+ 	#Open=(gtv %f >/dev/null 2>&1 &)
+ 	#Open=(xanim %f >/dev/null 2>&1 &)
+ 
+@@ -494,12 +504,12 @@
+ 
+ # Postscript
+ type/^PostScript
+-	Open=(gv %f &)
++	Open=xdg-open %f 2>/dev/null
+ 	View=%view{ascii} ps2ascii %f
+ 
+ # PDF
+ type/^PDF
+-	Open=(xpdf %f &)
++	Open=xdg-open %f 2>/dev/null
+ 	#Open=(acroread %f &)
+ 	#Open=(ghostview %f &)
+ 	View=%view{ascii} pdftotext %f -
+@@ -509,45 +519,45 @@
+ 
+ # html
+ regex/\.([hH][tT][mM][lL]?)$
+-	Open=(if test -n "@X11_WWW@" && test -n "$DISPLAY"; then (@X11_WWW@ file://%d/%p &) 1>&2; else links %f || lynx -force_html %f || ${PAGER:-more} %f; fi) 2>/dev/null
++	Open=(if test -n "$DISPLAY"; then xdg-open %f 2>/dev/null; else links %f || lynx -force_html %f || ${PAGER:-more} %f; fi) 2>/dev/null
+ 	View=%view{ascii} links -dump %f 2>/dev/null || w3m -dump %f 2>/dev/null || lynx -dump -force_html %f
+ 
+ # StarOffice 5.2
+ shell/.sdw
+-	Open=(ooffice %f &)
++	Open=xdg-open %f 2>/dev/null
+ 
+ # StarOffice 6 and OpenOffice.org formats
+ regex/\.(odt|ott|sxw|stw|ods|ots|sxc|stc|odp|otp|sxi|sti|odg|otg|sxd|std|odb|odf|sxm|odm|sxg)$
+-	Open=(ooffice %f &)
++	Open=xdg-open %f 2>/dev/null
+ 	View=%view{ascii} odt2txt %f
+ 
+ # AbiWord
+ shell/.abw
+-	Open=(abiword %f &)
++	Open=xdg-open %f 2>/dev/null
+ 
+ # Microsoft Word Document
+ regex/\.([Dd][oO][cCtT]|[Ww][rR][iI])$
+-	Open=(abiword %f >/dev/null 2>&1 &)
++	Open=xdg-open %f 2>/dev/null
+ 	View=%view{ascii} antiword -t %f || catdoc -w %f || word2x -f text %f - || strings %f
+ type/^Microsoft\ Word
+-	Open=(abiword %f >/dev/null 2>&1 &)
++	Open=xdg-open %f 2>/dev/null
+ 	View=%view{ascii} antiword -t %f || catdoc -w %f || word2x -f text %f - || strings %f
+ 
+ # RTF document
+ regex/\.([rR][tT][fF])$
+-	Open=(abiword %f >/dev/null 2>&1 &)
++	Open=xdg-open %f 2>/dev/null
+ 
+ # Microsoft Excel Worksheet
+ regex/\.([xX][lL][sSwW])$
+-	Open=(gnumeric %f >/dev/null 2>&1 &)
++	Open=xdg-open %f 2>/dev/null
+ 	View=%view{ascii} xls2csv %f || strings %f
+ type/^Microsoft\ Excel
+-	Open=(gnumeric %f >/dev/null 2>&1 &)
++	Open=xdg-open %f 2>/dev/null
+ 	View=%view{ascii} xls2csv %f || strings %f
+ 
+ # Use OpenOffice.org to open any MS Office documents
+ type/^Microsoft\ Office\ Document
+-	Open=(ooffice %f &)
++	Open=xdg-open %f 2>/dev/null
+ 
+ # Framemaker
+ type/^FrameMaker
+@@ -555,7 +565,7 @@
+ 
+ # DVI
+ regex/\.([dD][vV][iI])$
+-	Open=if [ x$DISPLAY = x ]; then dvisvga %f; else (xdvi %f &); fi
++	Open=xdg-open %f 2>/dev/null
+ 	View=%view{ascii} dvi2tty %f
+ 
+ # TeX
+@@ -628,7 +638,7 @@
+ 	Extract (with flags)=I=%{Enter any Arc flags:}; if test -n "$I"; then arc x $I %f; fi
+ 
+ # zip
+-type/^([Zz][Ii][Pp])\ archive
++regex/\.([Zz][Ii][Pp])$
+ 	Open=%cd %p/uzip://
+ 	View=%view{ascii} unzip -v %f
+ 

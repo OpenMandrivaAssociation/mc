@@ -1,0 +1,20 @@
+--- src/setup.c	2011-10-18 13:39:19.000000000 +0200
++++ src/setup.c.oden	2011-10-20 16:04:31.890706815 +0200
+@@ -104,7 +104,7 @@ int confirm_overwrite = 1;
+ /* Asks for confirmation before executing a program by pressing enter */
+ int confirm_execute = 0;
+ /* Asks for confirmation before leaving the program */
+-int confirm_exit = 1;
++int confirm_exit = 0;
+ 
+ /* If true, at startup the user-menu is invoked */
+ int auto_menu = 0;
+@@ -150,7 +150,7 @@ panels_options_t panels_options = {
+ int easy_patterns = 1;
+ 
+ /* It true saves the setup when quitting */
+-int auto_save_setup = 1;
++int auto_save_setup = 0;
+ 
+ /* If true, then the +, - and \ keys have their special meaning only if the
+  * command line is emtpy, otherwise they behave like regular letters
