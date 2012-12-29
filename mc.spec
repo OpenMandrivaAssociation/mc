@@ -4,8 +4,8 @@
 #define Werror_cflags %nil
 
 Name:		mc
-Version:	4.8.6
-Release:	%mkrel 1
+Version:	4.8.7
+Release:	1
 Summary:	A user-friendly file manager and visual shell
 License:	GPLv2+
 Group:		File tools
@@ -48,7 +48,7 @@ files, and poke into RPMs for specific files.
 %patch11 -p0 -b .tabs
 %patch14 -p1
 
-%__sed -i 's:|hxx|:|hh|hpp|hxx|:' misc/syntax/Syntax
+%__sed -i 's:|hxx|:|hh|hpp|hxx|:' misc/syntax/Syntax.in
 
 %build
 autoreconf -fi
