@@ -21,7 +21,7 @@ Patch11:	mc-4.7.0.2-do-not-mark-tabs.patch
 Patch14:	mc-4.7.2-bash_history.patch
 
 BuildRequires:	pkgconfig(ext2fs)
-BuildRequires:	libgpm-devel >= 0.18
+BuildRequires:	gpm-devel >= 0.18
 BuildRequires:	pam-devel
 BuildRequires:	slang-devel
 Buildrequires:	glib2-devel
