@@ -5,7 +5,7 @@
 
 Name:		mc
 Version:	4.8.8
-Release:	1
+Release:	2
 Summary:	A user-friendly file manager and visual shell
 License:	GPLv2+
 Group:		File tools
@@ -21,7 +21,7 @@ Patch11:	mc-4.7.0.2-do-not-mark-tabs.patch
 Patch14:	mc-4.7.2-bash_history.patch
 
 BuildRequires:	pkgconfig(ext2fs)
-BuildRequires:	libgpm-devel >= 0.18
+BuildRequires:	gpm-devel
 BuildRequires:	pam-devel
 BuildRequires:	slang-devel
 Buildrequires:	glib2-devel
