@@ -4,13 +4,13 @@
 #define Werror_cflags %nil
 
 Name:		mc
-Version:	4.8.7
+Version:	4.8.8
 Release:	1
 Summary:	A user-friendly file manager and visual shell
 License:	GPLv2+
 Group:		File tools
 URL:		http://www.midnight-commander.org/
-Source0:	http://www.midnight-commander.org/downloads/%{name}-%{version}.tar.xz
+Source0:	http://ftp.midnight-commander.org/%{name}-%{version}.tar.xz
 
 # ** Mandriva patches: 0 - 99 **
 
@@ -21,7 +21,7 @@ Patch11:	mc-4.7.0.2-do-not-mark-tabs.patch
 Patch14:	mc-4.7.2-bash_history.patch
 
 BuildRequires:	pkgconfig(ext2fs)
-BuildRequires:	gpm-devel >= 0.18
+BuildRequires:	libgpm-devel >= 0.18
 BuildRequires:	pam-devel
 BuildRequires:	slang-devel
 Buildrequires:	glib2-devel
