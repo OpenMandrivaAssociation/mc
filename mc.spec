@@ -1,37 +1,32 @@
 # avoid dependency on X11 libraries
-%define without_x       1
+%define without_x 1
+%define mc46_style 0
 
-#define Werror_cflags %nil
-
+Summary:	A user-friendly file manager and visual shell
 Name:		mc
 Version:	4.8.8
-Release:	2
-Summary:	A user-friendly file manager and visual shell
+Release:	3
 License:	GPLv2+
 Group:		File tools
-URL:		http://www.midnight-commander.org/
+Url:		http://www.midnight-commander.org/
 Source0:	http://ftp.midnight-commander.org/%{name}-%{version}.tar.xz
-
-# ** Mandriva patches: 0 - 99 **
-
-# (tv) add runlevel to initscript
-Patch6:		mc-4.7.0-pre2-decent_defaults.patch
-Patch9:		mc-4.8.0-xdg.patch
-Patch11:	mc-4.7.0.2-do-not-mark-tabs.patch
-Patch14:	mc-4.7.2-bash_history.patch
-
-BuildRequires:	pkgconfig(ext2fs)
+# Highlight hidden files and dirs with black and
+# whitespaces (in mcedit) with bright red like it was in mc 4.6.3 aka Russian fork
+Patch0:		mc-4.8.8-old-style-defaults.patch
+Patch1:		mc-4.7.0.2-do-not-mark-tabs.patch
+Patch2:		mc-4.7.0-pre2-decent_defaults.patch
+Patch3:		mc-4.7.2-bash_history.patch
+BuildRequires:	bison
+BuildRequires:	gettext-devel
 BuildRequires:	gpm-devel
 BuildRequires:	pam-devel
-BuildRequires:	slang-devel
-Buildrequires:	glib2-devel
-BuildRequires:	pcre-devel
-BuildRequires:	bison
-%if %{without_x}
-%else
+BuildRequires:	pkgconfig(ext2fs)
+BuildRequires:	pkgconfig(glib-2.0)
+BuildRequires:	pkgconfig(libpcre)
+BuildRequires:	pkgconfig(slang)
+%if !%{without_x}
 BuildRequires:	X11-devel
 %endif
-BuildRequires:	gettext-devel
 Requires:	groff
 
 %description
@@ -42,13 +37,15 @@ files, and poke into RPMs for specific files.
 
 %prep
 %setup -q
+%if %{mc46_style}
+%patch0 -p1 -b .mc46-style
+%else
+%patch1 -p0 -b .tabs
+%endif
+%patch2 -p0 -b .decent_defaults
+%patch3 -p1 -b .bash_history
 
-%patch6 -p0 -b .decent_defaults
-#patch9 -p1 -b .xdg
-%patch11 -p0 -b .tabs
-%patch14 -p1
-
-%__sed -i 's:|hxx|:|hh|hpp|hxx|:' misc/syntax/Syntax.in
+sed -i 's:|hxx|:|hh|hpp|hxx|:' misc/syntax/Syntax.in
 
 %build
 autoreconf -fi
@@ -56,34 +53,34 @@ autoreconf -fi
 export X11_WWW="www-browser"
 
 %configure2_5x \
-    --with-debug \
-    --enable-dependency-tracking \
-    --without-included-gettext \
-    --without-included-slang \
-    --with-screen=slang \
-    --with-search-engine=glib \
-    --enable-nls \
-    --enable-charset \
-    --enable-largefile \
-    --disable-rpath \
-    --with-mcfs \
-    --enable-extcharset \
-    --with-ext2undel \
-    --with-mmap \
+	--with-debug \
+	--enable-dependency-tracking \
+	--without-included-gettext \
+	--without-included-slang \
+	--with-screen=slang \
+	--with-search-engine=glib \
+	--enable-nls \
+	--enable-charset \
+	--enable-largefile \
+	--disable-rpath \
+	--with-mcfs \
+	--enable-extcharset \
+	--with-ext2undel \
+	--with-mmap \
 %if %{without_x}
-    --without-x
+	--without-x
 %endif
 
 %make
 
 %install
 #fix mc-wrapper.sh
-%__perl -p -i -e 's/rm -f \"/rm -rf \"/g' lib/mc-wrapper.sh
+perl -p -i -e 's/rm -f \"/rm -rf \"/g' lib/mc-wrapper.sh
 
 %makeinstall_std
 
-%__install -m644 contrib/mc.sh -D %{buildroot}%{_sysconfdir}/profile.d/20mc.sh
-%__install -m644 contrib/mc.csh -D %{buildroot}%{_sysconfdir}/profile.d/20mc.csh
+install -m644 contrib/mc.sh -D %{buildroot}%{_sysconfdir}/profile.d/20mc.sh
+install -m644 contrib/mc.csh -D %{buildroot}%{_sysconfdir}/profile.d/20mc.csh
 
 %find_lang %{name} --with-man
 
