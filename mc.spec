@@ -74,9 +74,7 @@ export X11_WWW="www-browser"
 %make
 
 %install
-#fix mc-wrapper.sh
-perl -p -i -e 's/rm -f \"/rm -rf \"/g' lib/mc-wrapper.sh
-
+sed -i -e 's/rm -f \"/rm -rf \"/g' contrib/mc-wrapper.sh
 %makeinstall_std
 
 install -m644 contrib/mc.sh -D %{buildroot}%{_sysconfdir}/profile.d/20mc.sh
@@ -95,3 +93,4 @@ install -m644 contrib/mc.csh -D %{buildroot}%{_sysconfdir}/profile.d/20mc.csh
 %{_bindir}/mcedit
 %{_bindir}/mcview
 %{_mandir}/man1/*
+
