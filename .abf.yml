@@ -1,2 +1,4 @@
-sources:
+removed_sources:
   mc-4.8.9.tar.xz: 89ce4a7616245442e1fb097eca8d554c0e2cc9b6
+sources:
+  mc-4.8.10.tar.xz: 14d487f0e74c0056c509cd7ec76a33489b355458
