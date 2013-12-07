@@ -5,7 +5,7 @@
 Summary:	A user-friendly file manager and visual shell
 Name:		mc
 Version:	4.8.10
-Release:	4
+Release:	5
 License:	GPLv2+
 Group:		File tools
 Url:		http://www.midnight-commander.org/
