@@ -4,8 +4,8 @@
 
 Summary:	A user-friendly file manager and visual shell
 Name:		mc
-Version:	4.8.10
-Release:	5
+Version:	4.8.11
+Release:	1
 License:	GPLv2+
 Group:		File tools
 Url:		http://www.midnight-commander.org/
@@ -93,4 +93,3 @@ install -m644 contrib/mc.csh -D %{buildroot}%{_sysconfdir}/profile.d/20mc.csh
 %{_bindir}/mcedit
 %{_bindir}/mcview
 %{_mandir}/man1/*
-
