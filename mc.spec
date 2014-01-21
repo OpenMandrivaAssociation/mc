@@ -84,7 +84,7 @@ install -m644 contrib/mc.csh -D %{buildroot}%{_sysconfdir}/profile.d/20mc.csh
 
 %files -f %{name}.lang
 %doc NEWS README
-%{_libdir}/mc
+%{_libexecdir}/mc
 %{_datadir}/mc
 %{_sysconfdir}/profile.d/*
 %{_sysconfdir}/mc
