@@ -64,7 +64,7 @@ sed -i 's:|hxx|:|hh|hpp|hxx|:' misc/syntax/Syntax.in
 #%%serverbuild
 export X11_WWW="www-browser"
 export CFLAGS="-D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE %{optflags} -Wno-strict-aliasing"
-%configure \
+%configure2_5x \
 	--with-debug \
 	--enable-dependency-tracking \
 	--without-included-gettext \
