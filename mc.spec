@@ -7,12 +7,12 @@
 
 Summary:	A user-friendly file manager and visual shell
 Name:		mc
-Version:	4.8.13
-Release:	2
+Version:	4.8.14
+Release:	1
 License:	GPLv2+
 Group:		File tools
 Url:		http://www.midnight-commander.org/
-Source0:	http://ftp.midnight-commander.org/%{name}-%{version}.tar.bz2
+Source0:	http://ftp.midnight-commander.org/%{name}-%{version}.tar.xz
 # Highlight hidden files and dirs with black and
 # whitespaces (in mcedit) with bright red like it was in mc 4.6.3 aka Russian fork
 Patch0:		mc-4.8.11-old-style-defaults.patch
@@ -64,7 +64,7 @@ sed -i 's:|hxx|:|hh|hpp|hxx|:' misc/syntax/Syntax.in
 #%%serverbuild
 export X11_WWW="www-browser"
 export CFLAGS="-D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE %{optflags} -Wno-strict-aliasing"
-%configure2_5x \
+%configure \
 	--with-debug \
 	--enable-dependency-tracking \
 	--without-included-gettext \
