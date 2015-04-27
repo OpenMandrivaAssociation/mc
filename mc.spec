@@ -1,21 +1,21 @@
-# experimental vfs, gpm and aspell enable
-%define  mrb 1
-
-# avoid dependency on X11 libraries
-%define without_x 1
-%define mc46_style 0
+%bcond_without mrb
+%bcond_with mc46_style
 
 Summary:	A user-friendly file manager and visual shell
 Name:		mc
 Version:	4.8.14
-Release:	0.1
+Release:	2
 License:	GPLv2+
 Group:		File tools
 Url:		http://www.midnight-commander.org/
 Source0:	http://ftp.midnight-commander.org/%{name}-%{version}.tar.xz
+Source1:	http://kde-look.org/CONTENT/content-files/163325-MidnightCommander.svg
+Source2:	mc.desktop
+Source100:	mc.rpmlintrc
+
 # Highlight hidden files and dirs with black and
 # whitespaces (in mcedit) with bright red like it was in mc 4.6.3 aka Russian fork
-Patch0:		mc-4.8.11-old-style-defaults.patch
+Patch0:		mc-4.8.12-old-style-defaults.patch
 Patch1:		mc-4.7.0.2-do-not-mark-tabs.patch
 # I'll keep it for now, if applied in the future
 # releases, to be dropped
@@ -30,15 +30,60 @@ BuildRequires:	pkgconfig(ext2fs)
 BuildRequires:	pkgconfig(glib-2.0)
 BuildRequires:	pkgconfig(libpcre)
 BuildRequires:	pkgconfig(slang)
-%if %{mrb}
-BuildRequires:	pkgconfig(libssh2) >= 1.2.5
+# see http://www.midnight-commander.org/wiki/NEWS-4.8.14
+BuildRequires:	glibc-devel  >= 2.14.0
+# let's build documentation too. Sflo
+BuildRequires:	doxygen
+
+%if %{with mrb}
+BuildRequires:	desktop-file-utils
+BuildRequires:	imagemagick
 BuildRequires:	groff
 BuildRequires:	aspell-devel
-%endif
-%if !%{without_x}
+BuildRequires:	pkgconfig(libssh2) >= 1.2.5
 BuildRequires:	pkgconfig(x11)
+BuildRequires:	pkgconfig(xt)
+Requires:	aspell-en
+Requires:	e2fsprogs
+# keep suggested jor full optional.Sflo
+# and might include restricted packages.
+# ucab extfs
+Suggests:	cabextract
+# audio extfs
+Suggests:	cdparanoia
+# iso9660 extfs
+Suggests:	cdrkit
+# hp48+ extfs
+Suggests:	gawk
+# spelling corrections
+Suggests:	aspell
+# CVS support
+Suggests:	config(cvs)
+# a+ extfs
+Suggests:	config(mtools)
+# needed by several extfs scripts
+Suggests:	perl
+# s3+ extfs
+Suggests:	pythonegg(boto)
+Suggests:	pythonegg(pytz)
+# uace extfs
+Suggests:	unace
+# uarj extfs
+Suggests:	unarj
+# urar extfs
+Suggests:	unrar
+# uzip extfs
+Suggests:	zip
+# support for 7zip archives
+Suggests:	p7zip
 %endif
+#########################################
+# see http://www.midnight-commander.org/wiki/NEWS-4.8.14
 Requires:	groff
+Requires:	glibc  >= 2.14.0
+
+
+
 
 %description
 Midnight Commander is a visual shell much like a file manager, only with way
@@ -46,9 +91,40 @@ more features.  It is text mode, but also includes mouse support if you are
 running GPM.  Its coolest feature is the ability to ftp, view tar, zip
 files, and poke into RPMs for specific files.
 
+%files -f %{name}.lang
+%doc doc/FAQ doc/COPYING doc/NEWS doc/README
+%{_bindir}/mc
+%{_bindir}/mcedit
+%{_bindir}/mcview
+%{_bindir}/mcdiff
+%{_datadir}/mc/*
+%{_libexecdir}/mc/cons.saver
+%{_libexecdir}/mc/mc*
+%{_libexecdir}/mc/extfs.d/*
+%{_libexecdir}/mc/ext.d/*
+%{_libexecdir}/mc/fish/*
+%{_mandir}/man1/*
+%{_sysconfdir}/profile.d/*
+%config(noreplace) %{_sysconfdir}/mc/mc.ext
+%config(noreplace) %{_sysconfdir}/mc/*edit*
+%config(noreplace) %{_sysconfdir}/mc/mc*.keymap
+%config(noreplace) %{_sysconfdir}/mc/mc.menu*
+%config(noreplace) %{_sysconfdir}/mc/*.ini
+%dir %{_datadir}/mc
+%dir %{_sysconfdir}/mc
+%dir %{_libexecdir}/mc
+%dir %{_libexecdir}/mc/fish
+%dir %{_libexecdir}/mc/extfs.d
+%dir %{_libexecdir}/mc/ext.d
+# Menu entry
+%{_datadir}/applications/mc.desktop
+%{_iconsdir}/hicolor/*/*/%{name}.png
+
+#----------------------------------------------------------------------------
+
 %prep
 %setup -q
-%if %{mc46_style}
+%if %{with mc46_style}
 %patch0 -p1 -b .mc46-style
 %else
 %patch1 -p0 -b .tabs
@@ -60,57 +136,49 @@ files, and poke into RPMs for specific files.
 sed -i 's:|hxx|:|hh|hpp|hxx|:' misc/syntax/Syntax.in
 
 %build
-#autoreconf -fi
-#%%serverbuild
 export X11_WWW="www-browser"
 export CFLAGS="-D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE %{optflags} -Wno-strict-aliasing"
 %configure2_5x \
-	--with-debug \
 	--enable-dependency-tracking \
 	--without-included-gettext \
-	--without-included-slang \
 	--with-screen=slang \
 	--with-search-engine=glib \
 	--enable-nls \
 	--enable-charset \
 	--enable-largefile \
 	--disable-rpath \
-	--with-mcfs \
-	--enable-extcharset \
-	--with-ext2undel \
 	--with-mmap \
+%if %{with mrb}
 	--enable-vfs-smb \
-%if %{mrb}	
 	--enable-vfs-sftp \
 	--with-gpm-mouse \
 	--enable-aspell \
-%endif	
-%if %{without_x}
-	--without-x
+	--with-x \
 %endif
+	--libexecdir=%{_libexecdir}
+
 
 %make
 
 %install
-#sed -i -e 's/rm -f \"/rm -rf \"/g' contrib/mc-wrapper.sh
 %makeinstall_std
-
-#install -m644 contrib/mc.sh -D %{buildroot}%{_sysconfdir}/profile.d/20mc.sh
-#install -m644 contrib/mc.csh -D %{buildroot}%{_sysconfdir}/profile.d/20mc.csh
-
 install -d -m 755 %{buildroot}%{_sysconfdir}/profile.d
 install contrib/{mc.sh,mc.csh} %{buildroot}%{_sysconfdir}/profile.d
 
+# Menu entry:
+desktop-file-install %SOURCE2 \
+  --dir=%{buildroot}%{_datadir}/applications
+# icons
+install -d 755 %{buildroot}%{_iconsdir}/hicolor/scalable
+for size in 256x256 128x128 96x96 64x64 48x48 32x32 22x22 16x16 ; do
+    install -dm 0755 \
+        %{buildroot}%{_iconsdir}/hicolor/$size/apps
+    convert -strip -resize $size %SOURCE1 \
+        %{buildroot}%{_iconsdir}/hicolor/$size/apps/%{name}.png
+done
+
+# end entry here. Sflo
+
+
 %find_lang %{name} --with-man
 
-%files -f %{name}.lang
-%doc NEWS README
-%{_libexecdir}/mc
-%{_datadir}/mc
-%{_sysconfdir}/profile.d/*
-%{_sysconfdir}/mc
-%{_bindir}/mc
-%{_bindir}/mcdiff
-%{_bindir}/mcedit
-%{_bindir}/mcview
-%{_mandir}/man1/*
