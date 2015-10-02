@@ -1,5 +1,6 @@
 # experimental vfs, gpm and aspell enable
 %define  mrb 1
+%define _disable_rebuild_configure 1
 
 # avoid dependency on X11 libraries
 %define without_x 1
@@ -60,7 +61,6 @@ files, and poke into RPMs for specific files.
 sed -i 's:|hxx|:|hh|hpp|hxx|:' misc/syntax/Syntax.in
 
 %build
-#autoreconf -fi
 #%%serverbuild
 export X11_WWW="www-browser"
 export CFLAGS="-D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE %{optflags} -Wno-strict-aliasing"
@@ -75,6 +75,7 @@ export CFLAGS="-D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE %{optflags} -Wno-stric
 	--enable-charset \
 	--enable-largefile \
 	--disable-rpath \
+	--enable-vfs-mcfs \
 	--with-mcfs \
 	--enable-extcharset \
 	--with-ext2undel \
