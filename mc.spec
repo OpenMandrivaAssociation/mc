@@ -3,8 +3,8 @@
 
 Summary:	A user-friendly file manager and visual shell
 Name:		mc
-Version:	4.8.14
-Release:	2
+Version:	4.8.15
+Release:	1
 License:	GPLv2+
 Group:		File tools
 Url:		http://www.midnight-commander.org/
@@ -81,9 +81,6 @@ Suggests:	p7zip
 # see http://www.midnight-commander.org/wiki/NEWS-4.8.14
 Requires:	groff
 Requires:	glibc  >= 2.14.0
-
-
-
 
 %description
 Midnight Commander is a visual shell much like a file manager, only with way
