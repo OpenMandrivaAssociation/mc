@@ -9,7 +9,7 @@
 Summary:	A user-friendly file manager and visual shell
 Name:		mc
 Version:	4.8.15
-Release:	1
+Release:	2
 License:	GPLv2+
 Group:		File tools
 Url:		http://www.midnight-commander.org/
@@ -39,7 +39,6 @@ BuildRequires:	aspell-devel
 %if !%{without_x}
 BuildRequires:	pkgconfig(x11)
 %endif
-Requires:	groff
 
 %description
 Midnight Commander is a visual shell much like a file manager, only with way
@@ -81,11 +80,11 @@ export CFLAGS="-D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE %{optflags} -Wno-stric
 	--with-ext2undel \
 	--with-mmap \
 	--enable-vfs-smb \
-%if %{mrb}	
+%if %{mrb}
 	--enable-vfs-sftp \
 	--with-gpm-mouse \
 	--enable-aspell \
-%endif	
+%endif
 %if %{without_x}
 	--without-x
 %endif
