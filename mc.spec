@@ -4,7 +4,7 @@
 Summary:	A user-friendly file manager and visual shell
 Name:		mc
 Version:	4.8.15
-Release:	1
+Release:	1.1
 License:	GPLv2+
 Group:		File tools
 Url:		http://www.midnight-commander.org/
@@ -79,7 +79,6 @@ Suggests:	p7zip
 %endif
 #########################################
 # see http://www.midnight-commander.org/wiki/NEWS-4.8.14
-Requires:	groff
 Requires:	glibc  >= 2.14.0
 
 %description
