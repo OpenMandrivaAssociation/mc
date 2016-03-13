@@ -3,8 +3,8 @@
 
 Summary:	A user-friendly file manager and visual shell
 Name:		mc
-Version:	4.8.15
-Release:	1.1
+Version:	4.8.16
+Release:	0.1
 License:	GPLv2+
 Group:		File tools
 Url:		http://www.midnight-commander.org/
@@ -177,4 +177,3 @@ done
 
 
 %find_lang %{name} --with-man
-
