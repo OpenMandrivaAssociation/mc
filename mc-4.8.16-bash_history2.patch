@@ -1,0 +1,12 @@
+diff -urN mc-4.8.16/src/subshell/common.c mc-4.8.16-patched/src/subshell/common.c
+--- mc-4.8.16/src/subshell/common.c	2016-03-13 01:45:48.000000000 +1000
++++ mc-4.8.16-patched/src/subshell/common.c	2016-03-15 01:02:10.833111727 +1000
+@@ -284,7 +284,7 @@
+ 
+         /* Make MC's special commands not show up in bash's history and also suppress
+          * consecutive identical commands*/
+-        putenv ((char *) "HISTCONTROL=ignoreboth");
++        putenv ((char *) "HISTCONTROL=ignorespace");
+ 
+         /* Allow alternative readline settings for MC */
+         {
