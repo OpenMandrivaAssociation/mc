@@ -9,7 +9,7 @@
 Summary:	A user-friendly file manager and visual shell
 Name:		mc
 Version:	4.8.16
-Release:	1
+Release:	2
 License:	GPLv2+
 Group:		File tools
 Url:		http://www.midnight-commander.org/
@@ -18,11 +18,11 @@ Source0:	http://ftp.midnight-commander.org/%{name}-%{version}.tar.xz
 # whitespaces (in mcedit) with bright red like it was in mc 4.6.3 aka Russian fork
 Patch0:		mc-4.8.11-old-style-defaults.patch
 Patch1:		mc-4.7.0.2-do-not-mark-tabs.patch
-# I'll keep it for now, if applied in the future
-# releases, to be dropped
-Patch2:		mc-4.7.0-pre2-decent_defaults.patch
-#
-Patch3:		mc-4.7.2-bash_history.patch
+Patch2:		mc-4.7.2-bash_history.patch
+# Revert to pre-4.8.16 behaviour to keep bash history clean
+Patch3:		mc-4.8.16-bash_history2.patch
+# Fix syntax errors in patchfs
+Patch4:		mc-4.8.16-patchfs.patch
 BuildRequires:	bison
 BuildRequires:	gettext-devel
 BuildRequires:	gpm-devel
@@ -53,9 +53,9 @@ files, and poke into RPMs for specific files.
 %else
 %patch1 -p0 -b .tabs
 %endif
-# Reversed (or previously applied) patch detected!
-#%%patch2 -p0 -b .decent_defaults
-%patch3 -p1 -b .bash_history
+%patch2 -p1 -b .bash_history
+%patch3 -p1 -b .bash_history2
+%patch4 -p1 -b .patchfs
 
 sed -i 's:|hxx|:|hh|hpp|hxx|:' misc/syntax/Syntax.in
 
