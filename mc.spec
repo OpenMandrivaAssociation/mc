@@ -21,8 +21,6 @@ Patch1:		mc-4.7.0.2-do-not-mark-tabs.patch
 Patch2:		mc-4.7.2-bash_history.patch
 # Revert to pre-4.8.16 behaviour to keep bash history clean
 Patch3:		mc-4.8.16-bash_history2.patch
-# Fix syntax errors in patchfs
-Patch4:		mc-4.8.16-patchfs.patch
 BuildRequires:	bison
 BuildRequires:	gettext-devel
 BuildRequires:	gpm-devel
@@ -55,7 +53,6 @@ files, and poke into RPMs for specific files.
 %endif
 %patch2 -p1 -b .bash_history
 %patch3 -p1 -b .bash_history2
-%patch4 -p1 -b .patchfs
 
 sed -i 's:|hxx|:|hh|hpp|hxx|:' misc/syntax/Syntax.in
 
