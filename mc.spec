@@ -1,26 +1,27 @@
-%bcond_without mrb
-%bcond_with mc46_style
+
+# experimental vfs, gpm and aspell enable
+%define mrb 1
+%define _disable_rebuild_configure 1
+
+# avoid dependency on X11 libraries
+%define without_x 1
+%define mc46_style 0
 
 Summary:	A user-friendly file manager and visual shell
 Name:		mc
-Version:	4.8.17
-Release:	0.1
+Version:	4.8.18
+Release:	1
 License:	GPLv2+
 Group:		File tools
 Url:		http://www.midnight-commander.org/
 Source0:	http://ftp.midnight-commander.org/%{name}-%{version}.tar.xz
-Source1:	http://kde-look.org/CONTENT/content-files/163325-MidnightCommander.svg
-Source2:	mc.desktop
-Source100:	mc.rpmlintrc
-
 # Highlight hidden files and dirs with black and
 # whitespaces (in mcedit) with bright red like it was in mc 4.6.3 aka Russian fork
 Patch0:		mc-4.8.12-old-style-defaults.patch
 Patch1:		mc-4.7.0.2-do-not-mark-tabs.patch
-#
-Patch2:         mc-4.7.2-bash_history.patch
+Patch2:		mc-4.7.2-bash_history.patch
 # Revert to pre-4.8.16 behaviour to keep bash history clean
-Patch3:         mc-4.8.16-bash_history2.patch
+Patch3:		mc-4.8.16-bash_history2.patch
 BuildRequires:	bison
 BuildRequires:	gettext-devel
 BuildRequires:	gpm-devel
@@ -76,9 +77,6 @@ Suggests:	zip
 # support for 7zip archives
 Suggests:	p7zip
 %endif
-#########################################
-# see http://www.midnight-commander.org/wiki/NEWS-4.8.14
-Requires:	glibc  >= 2.14.0
 
 %description
 Midnight Commander is a visual shell much like a file manager, only with way
@@ -130,9 +128,11 @@ files, and poke into RPMs for specific files.
 sed -i 's:|hxx|:|hh|hpp|hxx|:' misc/syntax/Syntax.in
 
 %build
+#%%serverbuild
 export X11_WWW="www-browser"
 export CFLAGS="-D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE %{optflags} -Wno-strict-aliasing"
-%configure2_5x \
+%configure \
+	--with-debug \
 	--enable-dependency-tracking \
 	--without-included-gettext \
 	--with-screen=slang \
@@ -141,13 +141,20 @@ export CFLAGS="-D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE %{optflags} -Wno-stric
 	--enable-charset \
 	--enable-largefile \
 	--disable-rpath \
+	--enable-vfs-mcfs \
+	--with-mcfs \
+	--enable-extcharset \
+	--with-ext2undel \
 	--with-mmap \
 %if %{with mrb}
 	--enable-vfs-smb \
+%if %{mrb}
 	--enable-vfs-sftp \
 	--with-gpm-mouse \
 	--enable-aspell \
-	--with-x \
+%endif
+%if %{without_x}
+	--without-x
 %endif
 	--libexecdir=%{_libexecdir}
 
