@@ -1,0 +1,33 @@
+diff -urN mc-4.8.12/misc/filehighlight.ini mc-4.8.12-patched/misc/filehighlight.ini
+--- mc-4.8.12/misc/filehighlight.ini	2013-04-11 07:04:31.000000000 +1100
++++ mc-4.8.12-patched/misc/filehighlight.ini	2014-08-20 20:24:45.768813849 +1100
+@@ -1,3 +1,7 @@
++[special]
++    type=SPECIAL
++    regexp=^\\.[^(\\.)]
++
+ [executable]
+     type=FILE_EXE
+ 
+@@ -7,9 +11,6 @@
+ [device]
+     type=DEVICE
+ 
+-[special]
+-    type=SPECIAL
+-
+ [stalelink]
+     type=STALE_LINK
+ 
+diff -urN mc-4.8.12/misc/skins/default.ini mc-4.8.12-patched/misc/skins/default.ini
+--- mc-4.8.12/misc/skins/default.ini	2014-04-01 21:54:01.000000000 +1100
++++ mc-4.8.12-patched/misc/skins/default.ini	2014-08-20 20:25:37.892693007 +1100
+@@ -102,7 +102,7 @@
+     _default_ = lightgray;blue
+     editbold = yellow;green
+     editmarked = black;cyan
+-    editwhitespace = brightblue;blue
++    editwhitespace = brightred;blue
+     editlinestate = white;cyan
+     bookmark = white;red
+     bookmarkfound = black;green

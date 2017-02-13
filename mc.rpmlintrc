@@ -1,0 +1,6 @@
+# fish integration scripts
+addFilter("W: script-without-shebang")
+# mc.sh and mc.csh
+addFilter("E: executable-sourced-script")
+# External Formatter, keep this executable for outside X integration
+addFilter("E: executable-marked-as-config-file")
