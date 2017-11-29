@@ -1,11 +1,13 @@
 
 # experimental vfs, gpm and aspell enable
-%define mrb 1
-%define _disable_rebuild_configure 1
+%bcond_without mrb
 
 # avoid dependency on X11 libraries
-%define without_x 1
-%define mc46_style 0
+%bcond_with x11
+
+%bcond_with mc46_style
+
+%define _disable_rebuild_configure 1
 
 Summary:	A user-friendly file manager and visual shell
 Name:		mc
@@ -34,13 +36,16 @@ BuildRequires:	glibc-devel  >= 2.14.0
 # let's build documentation too. Sflo
 BuildRequires:	doxygen
 
+%if %{with x}
+BuildRequires:	pkgconfig(x11)
+%endif
+
 %if %{with mrb}
 BuildRequires:	desktop-file-utils
 BuildRequires:	imagemagick
 BuildRequires:	groff
 BuildRequires:	aspell-devel
 BuildRequires:	pkgconfig(libssh2) >= 1.2.5
-BuildRequires:	pkgconfig(x11)
 BuildRequires:	pkgconfig(xt)
 Requires:	aspell-en
 Requires:	e2fsprogs
@@ -130,10 +135,12 @@ sed -i 's:|hxx|:|hh|hpp|hxx|:' misc/syntax/Syntax.in
 #%%serverbuild
 export X11_WWW="www-browser"
 export CFLAGS="-D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE %{optflags} -Wno-strict-aliasing"
+
+autoreconf -fi
 %configure \
-	--with-debug \
 	--enable-dependency-tracking \
 	--without-included-gettext \
+	--without-included-slang \
 	--with-screen=slang \
 	--with-search-engine=glib \
 	--enable-nls \
@@ -147,13 +154,12 @@ export CFLAGS="-D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE %{optflags} -Wno-stric
 	--with-mmap \
 %if %{with mrb}
 	--enable-vfs-smb \
-%if %{mrb}
 	--enable-vfs-sftp \
 	--with-gpm-mouse \
 	--enable-aspell \
 %endif
 %if %{without_x}
-	--without-x
+	--without-x \
 %endif
 	--libexecdir=%{_libexecdir}
 
