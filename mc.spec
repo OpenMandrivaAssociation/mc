@@ -17,6 +17,7 @@ License:	GPLv2+
 Group:		File tools
 Url:		http://www.midnight-commander.org/
 Source0:	http://ftp.midnight-commander.org/%{name}-%{version}.tar.xz
+Source2:	%{name}.desktop
 # Highlight hidden files and dirs with black and
 # whitespaces (in mcedit) with bright red like it was in mc 4.6.3 aka Russian fork
 Patch0:		mc-4.8.12-old-style-defaults.patch
@@ -169,7 +170,7 @@ install -d -m 755 %{buildroot}%{_sysconfdir}/profile.d
 install contrib/{mc.sh,mc.csh} %{buildroot}%{_sysconfdir}/profile.d
 
 # Menu entry:
-desktop-file-install %SOURCE2 \
+desktop-file-install %{SOURCE2} \
   --dir=%{buildroot}%{_datadir}/applications
 # icons
 install -d 755 %{buildroot}%{_iconsdir}/hicolor/scalable
