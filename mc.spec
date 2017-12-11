@@ -156,11 +156,10 @@ autoreconf -fi
 	--with-gpm-mouse \
 	--enable-aspell \
 %endif
-%if %{without_x}
+%if %{with x}
 	--without-x \
 %endif
 	--libexecdir=%{_libexecdir}
-
 
 %make
 
