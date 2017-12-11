@@ -1,0 +1,46 @@
+diff -urN mc-4.8.19/misc/filehighlight.ini mc-4.8.19-patched/misc/filehighlight.ini
+--- mc-4.8.19/misc/filehighlight.ini	2017-02-25 06:25:57.000000000 +1000
++++ mc-4.8.19-patched/misc/filehighlight.ini	2017-03-29 16:49:43.495794315 +1000
+@@ -1,3 +1,7 @@
++[special]
++    type=SPECIAL
++    regexp=^\\.[^(\\.)]
++
+ [executable]
+     type=FILE_EXE
+ 
+@@ -7,9 +11,6 @@
+ [device]
+     type=DEVICE
+ 
+-[special]
+-    type=SPECIAL
+-
+ [stalelink]
+     type=STALE_LINK
+ 
+diff -urN mc-4.8.19/misc/skins/default.ini mc-4.8.19-patched/misc/skins/default.ini
+--- mc-4.8.19/misc/skins/default.ini	2017-03-05 03:26:19.000000000 +1000
++++ mc-4.8.19-patched/misc/skins/default.ini	2017-03-29 16:49:43.496794315 +1000
+@@ -102,7 +102,7 @@
+     _default_ = lightgray;blue
+     editbold = yellow;green
+     editmarked = black;cyan
+-    editwhitespace = brightblue;blue
++    editwhitespace = brightred;blue
+     editlinestate = white;cyan
+     bookmark = white;red
+     bookmarkfound = black;green
+diff -urN mc-4.8.19/misc/syntax/Syntax.in mc-4.8.19-patched/misc/syntax/Syntax.in
+--- mc-4.8.19/misc/syntax/Syntax.in	2017-03-05 03:26:19.000000000 +1000
++++ mc-4.8.19-patched/misc/syntax/Syntax.in	2017-03-29 16:50:39.033799124 +1000
+@@ -271,9 +271,6 @@
+ file ..\*\\.cl$ OpenCL\sProgram
+ include opencl.syntax
+ 
+-file ..\*\\.(ya?ml|YML)$ YAML\sFile
+-include yaml.syntax
+-
+ file .\*\\.osl$ OSL\sProgram
+ include osl.syntax
+ 
