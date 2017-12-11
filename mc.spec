@@ -17,6 +17,7 @@ License:	GPLv2+
 Group:		File tools
 Url:		http://www.midnight-commander.org/
 Source0:	http://ftp.midnight-commander.org/%{name}-%{version}.tar.xz
+Source1:	%{name}.png
 Source2:	%{name}.desktop
 # Highlight hidden files and dirs with black and
 # whitespaces (in mcedit) with bright red like it was in mc 4.6.3 aka Russian fork
@@ -177,7 +178,7 @@ install -d 755 %{buildroot}%{_iconsdir}/hicolor/scalable
 for size in 256x256 128x128 96x96 64x64 48x48 32x32 22x22 16x16 ; do
     install -dm 0755 \
         %{buildroot}%{_iconsdir}/hicolor/$size/apps
-    convert -strip -resize $size %SOURCE1 \
+    convert -strip -resize $size %{SOURCE1} \
         %{buildroot}%{_iconsdir}/hicolor/$size/apps/%{name}.png
 done
 
