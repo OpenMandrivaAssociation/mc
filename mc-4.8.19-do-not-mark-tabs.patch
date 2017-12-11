@@ -1,0 +1,12 @@
+diff -urN mc-4.8.19/src/editor/editdraw.c mc-4.8.19-patched/src/editor/editdraw.c
+--- mc-4.8.19/src/editor/editdraw.c	2017-03-05 03:51:38.000000000 +1000
++++ mc-4.8.19-patched/src/editor/editdraw.c	2017-03-09 00:20:53.317606754 +1000
+@@ -64,7 +64,7 @@
+ gboolean simple_statusbar = FALSE;
+ 
+ gboolean visible_tws = TRUE;
+-gboolean visible_tabs = TRUE;
++gboolean visible_tabs = FALSE;
+ 
+ /*** file scope macro definitions ****************************************************************/
+ 

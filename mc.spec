@@ -20,6 +20,7 @@ Source0:	http://ftp.midnight-commander.org/%{name}-%{version}.tar.xz
 # Highlight hidden files and dirs with black and
 # whitespaces (in mcedit) with bright red like it was in mc 4.6.3 aka Russian fork
 Patch0:		mc-4.8.12-old-style-defaults.patch
+Patch1:		mc-4.8.19-do-not-mark-tabs.patch
 Patch2:		mc-4.7.2-bash_history.patch
 # Revert to pre-4.8.16 behaviour to keep bash history clean
 Patch3:		mc-4.8.16-bash_history2.patch
