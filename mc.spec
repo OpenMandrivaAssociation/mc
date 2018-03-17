@@ -12,7 +12,7 @@
 Summary:	A user-friendly file manager and visual shell
 Name:		mc
 Version:	4.8.20
-Release:	1
+Release:	2
 License:	GPLv2+
 Group:		File tools
 Url:		http://www.midnight-commander.org/
@@ -49,39 +49,39 @@ BuildRequires:	groff
 BuildRequires:	aspell-devel
 BuildRequires:	pkgconfig(libssh2) >= 1.2.5
 BuildRequires:	pkgconfig(xt)
-Requires:	aspell-en
-Requires:	e2fsprogs
+Recommends:	aspell-en
+Recommends:	e2fsprogs
 # keep suggested jor full optional.Sflo
 # and might include restricted packages.
 # ucab extfs
-Suggests:	cabextract
+Recommends:	cabextract
 # audio extfs
-Suggests:	cdparanoia
+Recommends:	cdparanoia
 # iso9660 extfs
-Suggests:	cdrkit
+Recommends:	cdrkit
 # hp48+ extfs
-Suggests:	gawk
+Recommends:	gawk
 # spelling corrections
-Suggests:	aspell
+Recommends:	aspell
 # CVS support
-Suggests:	config(cvs)
+Recommends:	config(cvs)
 # a+ extfs
-Suggests:	config(mtools)
+Recommends:	config(mtools)
 # needed by several extfs scripts
-Suggests:	perl
+Recommends:	perl
 # s3+ extfs
-Suggests:	pythonegg(boto)
-Suggests:	pythonegg(pytz)
+Recommends:	pythonegg(boto)
+Recommends:	pythonegg(pytz)
 # uace extfs
-Suggests:	unace
+Recommends:	unace
 # uarj extfs
-Suggests:	unarj
+Recommends:	unarj
 # urar extfs
-Suggests:	unrar
+Recommends:	unrar
 # uzip extfs
-Suggests:	zip
+Recommends:	zip
 # support for 7zip archives
-Suggests:	p7zip
+Recommends:	p7zip
 %endif
 
 %description
