@@ -11,8 +11,8 @@
 
 Summary:	A user-friendly file manager and visual shell
 Name:		mc
-Version:	4.8.21
-Release:	2
+Version:	4.8.22
+Release:	1
 License:	GPLv2+
 Group:		File tools
 Url:		http://www.midnight-commander.org/
@@ -163,10 +163,10 @@ autoreconf -fi
 %endif
 	--libexecdir=%{_libexecdir}
 
-%make
+%make_build
 
 %install
-%makeinstall_std
+%make_install
 install -d -m 755 %{buildroot}%{_sysconfdir}/profile.d
 install contrib/{mc.sh,mc.csh} %{buildroot}%{_sysconfdir}/profile.d
 
