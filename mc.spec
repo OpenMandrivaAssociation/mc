@@ -12,7 +12,7 @@
 Summary:	A user-friendly file manager and visual shell
 Name:		mc
 Version:	4.8.23
-Release:	1
+Release:	2
 License:	GPLv2+
 Group:		File tools
 Url:		http://www.midnight-commander.org/
@@ -70,8 +70,9 @@ Recommends:	config(mtools)
 # needed by several extfs scripts
 Recommends:	perl
 # s3+ extfs
-Recommends:	pythonegg(boto)
-Recommends:	pythonegg(pytz)
+# (tpg) do not pull python2
+#Recommends:	pythonegg(boto)
+#Recommends:	pythonegg(pytz)
 # uace extfs
 Recommends:	unace
 # uarj extfs
