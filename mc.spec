@@ -132,7 +132,8 @@ files, and poke into RPMs for specific files.
 %endif
 %patch2 -p1 -b .bash_history
 %patch3 -p1 -b .bash_history2
-
+%patch4	-p1
+%patch5	-p1
 sed -i 's:|hxx|:|hh|hpp|hxx|:' misc/syntax/Syntax.in
 
 %build
