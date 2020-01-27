@@ -25,6 +25,9 @@ Patch0:		mc-4.8.12-old-style-defaults.patch
 Patch2:		mc-4.7.2-bash_history.patch
 # Revert to pre-4.8.16 behaviour to keep bash history clean
 Patch3:		mc-4.8.16-bash_history2.patch
+# Needed for GLIB2.0 UNSTABLE! http://midnight-commander.org/ticket/4053
+Patch4:		4053.patch
+Patch5:		4053.2.patch
 BuildRequires:	bison
 BuildRequires:	gettext-devel
 BuildRequires:	gpm-devel
