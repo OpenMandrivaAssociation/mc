@@ -11,8 +11,8 @@
 
 Summary:	A user-friendly file manager and visual shell
 Name:		mc
-Version:	4.8.23
-Release:	2
+Version:	4.8.24
+Release:	1
 License:	GPLv2+
 Group:		File tools
 Url:		http://www.midnight-commander.org/
@@ -25,6 +25,9 @@ Patch0:		mc-4.8.12-old-style-defaults.patch
 Patch2:		mc-4.7.2-bash_history.patch
 # Revert to pre-4.8.16 behaviour to keep bash history clean
 Patch3:		mc-4.8.16-bash_history2.patch
+# Needed for GLIB2.0 UNSTABLE! http://midnight-commander.org/ticket/4053
+Patch4:		4053.patch
+Patch5:		4053.2.patch
 BuildRequires:	bison
 BuildRequires:	gettext-devel
 BuildRequires:	gpm-devel
@@ -129,7 +132,8 @@ files, and poke into RPMs for specific files.
 %endif
 %patch2 -p1 -b .bash_history
 %patch3 -p1 -b .bash_history2
-
+%patch4	-p1
+%patch5	-p1
 sed -i 's:|hxx|:|hh|hpp|hxx|:' misc/syntax/Syntax.in
 
 %build
