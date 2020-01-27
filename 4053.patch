@@ -1,0 +1,22 @@
+diff --git a/lib/glibcompat.c b/lib/glibcompat.c
+index 48a2409e5..d0f8d5b4f 100644
+--- a/lib/glibcompat.c
++++ b/lib/glibcompat.c
+@@ -104,7 +104,7 @@ g_list_free_full (GList * list, GDestroyNotify free_func)
+  * Since: 2.64
+  */
+ void
+-g_clear_slist (GSList ** slist_ptr, GDestroyNotify destroy)
++(g_clear_slist) (GSList ** slist_ptr, GDestroyNotify destroy)
+ {
+     GSList *slist;
+ 
+@@ -135,7 +135,7 @@ g_clear_slist (GSList ** slist_ptr, GDestroyNotify destroy)
+  * Since: 2.64
+  */
+ void
+-g_clear_list (GList ** list_ptr, GDestroyNotify destroy)
++(g_clear_list) (GList ** list_ptr, GDestroyNotify destroy)
+ {
+     GList *list;
+ 
