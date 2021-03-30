@@ -1,3 +1,5 @@
+# (tpg) we already recommends perl so lets excude any hardcoded modules
+%global __requires_exclude ^perl\\(.*\\)|^%{_bindir}/perl
 
 # experimental vfs, gpm and aspell enable
 %bcond_without mrb
@@ -12,7 +14,7 @@
 Summary:	A user-friendly file manager and visual shell
 Name:		mc
 Version:	4.8.26
-Release:	1
+Release:	3
 License:	GPLv2+
 Group:		File tools
 Url:		http://www.midnight-commander.org/
