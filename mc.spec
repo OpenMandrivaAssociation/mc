@@ -1,3 +1,6 @@
+# (tpg) optimizxe it a bit
+%global optflags %{optflags} -Oz --rtlib=compiler-rt
+
 # (tpg) we already recommends perl so lets excude any hardcoded modules
 %global __requires_exclude ^perl\\(.*\\)|^%{_bindir}/perl
 
@@ -14,7 +17,7 @@
 Summary:	A user-friendly file manager and visual shell
 Name:		mc
 Version:	4.8.27
-Release:	1
+Release:	2
 License:	GPLv2+
 Group:		File tools
 Url:		http://www.midnight-commander.org/
@@ -134,12 +137,11 @@ files, and poke into RPMs for specific files.
 %endif
 %patch2 -p1 -b .bash_history
 %patch3 -p1 -b .bash_history2
-%patch4	-p1
-#patch5	-p1
+%patch4 -p1
+#patch5 -p1
 sed -i 's:|hxx|:|hh|hpp|hxx|:' misc/syntax/Syntax.in
 
 %build
-#%%serverbuild
 export X11_WWW="www-browser"
 export CFLAGS="-D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE %{optflags} -Wno-strict-aliasing"
 
