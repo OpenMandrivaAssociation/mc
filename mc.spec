@@ -113,7 +113,7 @@ files, and poke into RPMs for specific files.
 %{_libexecdir}/mc/fish/*
 %{_mandir}/man1/*
 %{_sysconfdir}/profile.d/*
-%config(noreplace) %{_sysconfdir}/mc/mc.ext
+#config(noreplace) %{_sysconfdir}/mc/mc.ext
 %config(noreplace) %{_sysconfdir}/mc/*edit*
 %config(noreplace) %{_sysconfdir}/mc/mc*.keymap
 %config(noreplace) %{_sysconfdir}/mc/mc.menu*
