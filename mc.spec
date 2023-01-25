@@ -4,35 +4,23 @@
 # (tpg) we already recommends perl so lets excude any hardcoded modules
 %global __requires_exclude ^perl\\(.*\\)|^%{_bindir}/perl
 
-# experimental vfs, gpm and aspell enable
-%bcond_without mrb
-
-# avoid dependency on X11 libraries
-%bcond_with x11
-
-%bcond_with mc46_style
-
 %define _disable_rebuild_configure 1
 
 Summary:	A user-friendly file manager and visual shell
 Name:		mc
 Version:	4.8.29
-Release:	1
+Release:	2
 License:	GPLv2+
 Group:		File tools
 Url:		http://www.midnight-commander.org/
 Source0:	http://ftp.midnight-commander.org/%{name}-%{version}.tar.xz
 Source1:	%{name}.png
 Source2:	%{name}.desktop
-# Highlight hidden files and dirs with black and
-# whitespaces (in mcedit) with bright red like it was in mc 4.6.3 aka Russian fork
-Patch0:		mc-4.8.12-old-style-defaults.patch
 Patch2:		mc-4.7.2-bash_history.patch
 # Revert to pre-4.8.16 behaviour to keep bash history clean
 Patch3:		mc-4.8.16-bash_history2.patch
 # Needed for GLIB2.0 UNSTABLE! http://midnight-commander.org/ticket/4053
 Patch4:		4053.patch
-#Patch5:		4053.2.patch
 BuildRequires:	bison
 BuildRequires:	gettext-devel
 BuildRequires:	gpm-devel
@@ -45,12 +33,6 @@ BuildRequires:	pkgconfig(slang)
 BuildRequires:	glibc-devel  >= 2.14.0
 # let's build documentation too. Sflo
 BuildRequires:	doxygen
-
-%if %{with x}
-BuildRequires:	pkgconfig(x11)
-%endif
-
-%if %{with mrb}
 BuildRequires:	desktop-file-utils
 BuildRequires:	imagemagick
 BuildRequires:	groff
@@ -66,21 +48,17 @@ Recommends:	cabextract
 # audio extfs
 Recommends:	cdparanoia
 # iso9660 extfs
-Recommends:	cdrkit
+Recommends:	mkisofs
+Recommends:	xorriso
 # hp48+ extfs
 Recommends:	gawk
 # spelling corrections
 Recommends:	aspell
-# CVS support
-Recommends:	config(cvs)
 # a+ extfs
 Recommends:	config(mtools)
 # needed by several extfs scripts
 Recommends:	perl
 # s3+ extfs
-# (tpg) do not pull python2
-#Recommends:	pythonegg(boto)
-#Recommends:	pythonegg(pytz)
 # uace extfs
 Recommends:	unace
 # uarj extfs
@@ -91,7 +69,6 @@ Recommends:	unrar
 Recommends:	zip
 # support for 7zip archives
 Recommends:	p7zip
-%endif
 
 %description
 Midnight Commander is a visual shell much like a file manager, only with way
@@ -111,7 +88,7 @@ files, and poke into RPMs for specific files.
 %{_libexecdir}/mc/extfs.d/*
 %{_libexecdir}/mc/ext.d/*
 %{_libexecdir}/mc/fish/*
-%{_mandir}/man1/*
+%doc %{_mandir}/man1/*
 %{_sysconfdir}/profile.d/*
 #config(noreplace) %{_sysconfdir}/mc/mc.ext
 %config(noreplace) %{_sysconfdir}/mc/*edit*
@@ -131,14 +108,8 @@ files, and poke into RPMs for specific files.
 #----------------------------------------------------------------------------
 
 %prep
-%setup -q
-%if %{with mc46_style}
-%patch0 -p1 -b .mc46-style
-%endif
-%patch2 -p1 -b .bash_history
-%patch3 -p1 -b .bash_history2
-%patch4 -p1
-#patch5 -p1
+%autosetup -p1
+
 sed -i 's:|hxx|:|hh|hpp|hxx|:' misc/syntax/Syntax.in
 
 %build
@@ -161,15 +132,11 @@ autoreconf -fi
 	--enable-extcharset \
 	--with-ext2undel \
 	--with-mmap \
-%if %{with mrb}
 	--enable-vfs-smb \
 	--enable-vfs-sftp \
 	--with-gpm-mouse \
 	--enable-aspell \
-%endif
-%if %{with x}
 	--without-x \
-%endif
 	--libexecdir=%{_libexecdir}
 
 %make_build
@@ -186,7 +153,7 @@ desktop-file-install %{SOURCE2} \
 install -d 755 %{buildroot}%{_iconsdir}/hicolor/scalable
 for size in 256x256 128x128 96x96 64x64 48x48 32x32 22x22 16x16 ; do
     install -dm 0755 \
-        %{buildroot}%{_iconsdir}/hicolor/$size/apps
+	%{buildroot}%{_iconsdir}/hicolor/$size/apps
     convert -strip -resize $size %{SOURCE1} \
         %{buildroot}%{_iconsdir}/hicolor/$size/apps/%{name}.png
 done
