@@ -87,7 +87,6 @@ files, and poke into RPMs for specific files.
 %{_libexecdir}/mc/mc*
 %{_libexecdir}/mc/extfs.d/*
 %{_libexecdir}/mc/ext.d/*
-%{_libexecdir}/mc/fish/*
 %doc %{_mandir}/man1/*
 %{_sysconfdir}/profile.d/*
 #config(noreplace) %{_sysconfdir}/mc/mc.ext
@@ -98,7 +97,6 @@ files, and poke into RPMs for specific files.
 %dir %{_datadir}/mc
 %dir %{_sysconfdir}/mc
 %dir %{_libexecdir}/mc
-%dir %{_libexecdir}/mc/fish
 %dir %{_libexecdir}/mc/extfs.d
 %dir %{_libexecdir}/mc/ext.d
 # Menu entry
