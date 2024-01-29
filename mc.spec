@@ -8,12 +8,12 @@
 
 Summary:	A user-friendly file manager and visual shell
 Name:		mc
-Version:	4.8.30
+Version:	4.8.31
 Release:	1
 License:	GPLv2+
 Group:		File tools
-Url:		http://www.midnight-commander.org/
-Source0:	http://ftp.midnight-commander.org/%{name}-%{version}.tar.xz
+Url:		https://www.midnight-commander.org/
+Source0:	https://ftp.midnight-commander.org/%{name}-%{version}.tar.xz
 Source1:	%{name}.png
 Source2:	%{name}.desktop
 Patch2:		mc-4.7.2-bash_history.patch
@@ -68,7 +68,7 @@ Recommends:	unrar
 # uzip extfs
 Recommends:	zip
 # support for 7zip archives
-Recommends:	p7zip
+Recommends:	7zip
 
 %description
 Midnight Commander is a visual shell much like a file manager, only with way
