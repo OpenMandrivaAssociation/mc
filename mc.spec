@@ -87,6 +87,7 @@ files, and poke into RPMs for specific files.
 %{_libexecdir}/mc/mc*
 %{_libexecdir}/mc/extfs.d/*
 %{_libexecdir}/mc/ext.d/*
+%{_libexecdir}/mc/shell/
 %doc %{_mandir}/man1/*
 %{_sysconfdir}/profile.d/*
 #config(noreplace) %{_sysconfdir}/mc/mc.ext
